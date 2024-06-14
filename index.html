@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telas do App de E-mail</title>
+    <style>
+        /* Estilos gerais */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+            background-color: #f3f4f6;
+            margin: 0;
+        }
+        .screen {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 10px;
+            width: 90%;
+            max-width: 400px;
+            padding: 20px;
+            background-color: #fff;
+            box-sizing: border-box;
+        }
+        h2 {
+            font-size: 1.5em;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+        p, label {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 0.9em;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        ul li {
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            margin-bottom: 5px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        ul li:hover {
+            background-color: #f1f1f1;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        a:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+
+        /* Estilos específicos para cada tela */
+        /* Tela de Boas-vindas/Introdução */
+        .screen.welcome {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: #fff;
+            text-align: center;
+        }
+        .screen.welcome p {
+            color: #e0e0e0;
+        }
+
+        /* Tela de Login */
+        .screen.login {
+            border-top: 3px solid #007bff;
+        }
+        .screen.login input,
+        .screen.login button {
+            margin-top: 5px;
+        }
+        .screen.login a {
+            display: block;
+            text-align: right;
+        }
+
+        /* Tela de Cadastro */
+        .screen.register {
+            border-top: 3px solid #28a745;
+        }
+        .screen.register input,
+        .screen.register button {
+            margin-top: 5px;
+        }
+
+        /* Tela Principal/Caixa de Entrada */
+        .screen.inbox {
+            border-top: 3px solid #17a2b8;
+        }
+        .screen.inbox p {
+            font-weight: bold;
+        }
+        .screen.inbox select,
+        .screen.inbox button {
+            margin-top: 10px;
+        }
+
+        /* Tela de Leitura de E-mail */
+        .screen.email-read {
+            border-top: 3px solid #ffc107;
+        }
+        .screen.email-read p {
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+        .screen.email-read button {
+            margin: 5px 0;
+        }
+
+        /* Tela de Composição de E-mail */
+        .screen.email-compose {
+            border-top: 3px solid #dc3545;
+        }
+        .screen.email-compose textarea {
+            margin-top: 5px;
+        }
+
+        /* Tela de Pastas e Filtros */
+        .screen.folders {
+            border-top: 3px solid #20c997;
+        }
+        .screen.folders ul li {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Tela de Pesquisa */
+        .screen.search {
+            border-top: 3px solid #fd7e14;
+        }
+
+        /* Tela de Configurações */
+        .screen.settings {
+            border-top: 3px solid #6610f2;
+        }
+        .screen.settings input[type="checkbox"] {
+            width: auto;
+            margin-left: 5px;
+        }
+        .screen.settings textarea {
+            margin-top: 5px;
+        }
+
+        /* Tela de Perfil */
+        .screen.profile {
+            border-top: 3px solid #6f42c1;
+        }
+
+        /* Tela de Notificações */
+        .screen.notifications {
+            border-top: 3px solid #e83e8c;
+        }
+
+        /* Tela de Ajuda e Suporte */
+        .screen.help {
+            border-top: 3px solid #007bff;
+        }
+        .screen.help a {
+            display: block;
+            margin: 10px 0;
+        }
+
+        /* Tela de Feedback */
+        .screen.feedback {
+            border-top: 3px solid #28a745;
+        }
+        .screen.feedback textarea {
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="screen welcome">
+        <h2>Tela de Boas-vindas/Introdução</h2>
+        <p>Bem-vindo ao nosso app de e-mail! Aqui você pode gerenciar seus e-mails de forma eficiente e segura.</p>
+    </div>
+    <div class="screen login">
+        <h2>Tela de Login</h2>
+        <label for="email">E-mail:</label>
+        <input type="email" id="email" placeholder="Seu e-mail">
+        <label for="password">Senha:</label>
+        <input type="password" id="password" placeholder="Sua senha">
+        <button>Login</button>
+        <p><a href="#">Esqueceu a senha?</a></p>
+    </div>
+    <div class="screen register">
+        <h2>Tela de Cadastro</h2>
+        <label for="name">Nome:</label>
+        <input type="text" id="name" placeholder="Seu nome">
+        <label for="email-register">E-mail:</label>
+        <input type="email" id="email-register" placeholder="Seu e-mail">
+        <label for="password-register">Senha:</label>
+        <input type="password" id="password-register" placeholder="Sua senha">
+        <label for="confirm-password">Confirmar Senha:</label>
+        <input type="password" id="confirm-password" placeholder="Confirme sua senha">
+        <button>Cadastrar</button>
+    </div>
+    <div class="screen inbox">
+        <h2>Tela Principal/Caixa de Entrada</h2>
+        <p>Lista de e-mails recebidos.</p>
+        <label for="filter">Filtrar por:</label>
+        <select id="filter">
+            <option>Não lidos</option>
+            <option>Favoritos</option>
+            <option>Com anexos</option>
+        </select>
+        <button>Novo E-mail</button>
+    </div>
+    <div class="screen email-read">
+        <h2>Tela de Leitura de E-mail</h2>
+        <p><strong>De:</strong> remetente@exemplo.com</p>
+        <p><strong>Assunto:</strong> Assunto do e-mail</p>
+        <p>Corpo do e-mail...</p>
+        <button>Responder</button>
+        <button>Encaminhar</button>
+    </div>
+    <div class="screen email-compose">
+        <h2>Tela de Composição de E-mail</h2>
+        <label for="to">Para:</label>
+        <input type="email" id="to" placeholder="Destinatário">
+        <label for="subject">Assunto:</label>
+        <input type="text" id="subject" placeholder="Assunto">
+        <label for="message">Mensagem:</label>
+        <textarea id="message" rows="5" placeholder="Escreva sua mensagem aqui..."></textarea>
+        <button>Enviar</button>
+    </div>
+    <div class="screen folders">
+        <h2>Tela de Pastas e Filtros</h2>
+        <p>Gerencie suas pastas de e-mail.</p>
+        <p><strong>Pastas:</strong></p>
+        <ul>
+            <li>Caixa de Entrada <span>15</span></li>
+            <li>Enviados <span>10</span></li>
+            <li>Rascunhos <span>5</span></
