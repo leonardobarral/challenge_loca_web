@@ -12,7 +12,7 @@ import br.com.fiap.mailmaster.models.User
 interface UserDao {
 
     @Insert
-    fun insert(user: UserCadastroDto): User
+    fun insert(user: User): Long
 
     @Update
     fun update(user:User): Int
@@ -25,5 +25,8 @@ interface UserDao {
 
     @Query("SELECT * FROM tb_user WHERE senha = :senha AND email = :email")
     fun login(senha:String,email:String): User
+
+    @Query("SELECT id FROM tb_user WHERE email = :email")
+    fun selectByEmail(email:String): Long
 
 }

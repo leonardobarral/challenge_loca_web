@@ -3,32 +3,33 @@ package br.com.fiap.mailmaster.models
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
 import br.com.fiap.mailmaster.models.enums.BoxFolderEnum
-import br.com.fiap.mailmaster.models.enums.ReceiverTypeEnum
 import java.time.LocalDateTime
 
+@TypeConverters(DateConverter::class)
 @Entity(tableName = "tb_receiver")
 class EmailReceiverUser(
 
     @PrimaryKey(autoGenerate = true)
-    val id : Long,
+    val id: Long = 0L,
 
     @ColumnInfo(name = "id_email")
-    val idEmail : Long,
+    val idEmail: Long,
 
     @ColumnInfo(name = "id_user_receiver")
-    val idReceiver : Long,
+    val idReceiver: Long,
 
     @ColumnInfo(name = "receiver_type")
-    val receiverType : ReceiverTypeEnum,
+    val receiverType: String,
 
     @ColumnInfo(name = "data_recebimento")
-    val dataRecebimento : LocalDateTime,
+    val dataRecebimento: LocalDateTime?,
 
     @ColumnInfo(name = "status_leitura")
-    val statusLeitura : Boolean,
+    val statusLeitura: Boolean,
 
     @ColumnInfo(name = "box_folder")
-    val boxSizeEmail : BoxFolderEnum = BoxFolderEnum.BOX
+    val boxSizeEmail: String = BoxFolderEnum.BOX.toString()
 
 )

@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
+import br.com.fiap.mailmaster.dtos.EmailCriacaoDto
 import br.com.fiap.mailmaster.models.Email
 import br.com.fiap.mailmaster.models.User
 

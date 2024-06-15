@@ -16,15 +16,18 @@ import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.input.key.type
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
-import br.com.fiap.mailmaster.dtos.EmailCriacaoDto
+import br.com.fiap.mailmaster.dtos.EmailEReceiverCriacaoDto
 import br.com.fiap.mailmaster.models.views.ViewModel
 import br.com.fiap.mailmaster.models.views.WriteViewModel
 import br.com.fiap.mailmaster.services.EmailService
-import br.com.fiap.mailmaster.services.UserService
 import java.time.LocalDate
 
 @Composable
-fun WriteScreen(navController: NavController, viewModel: ViewModel, writeViewModel: WriteViewModel) {
+fun WriteScreen(
+    navController: NavController,
+    viewModel: ViewModel,
+    writeViewModel: WriteViewModel
+) {
 
     val userLoged by viewModel.userLoged.observeAsState()
 
@@ -46,7 +49,7 @@ fun WriteScreen(navController: NavController, viewModel: ViewModel, writeViewMod
     val userNome by viewModel.userNome.observeAsState(initial = "")
 
     val context = LocalContext.current
-    val userService = UserService(context)
+    val emailService = EmailService(context)
 //    val userRepository = UserRepository(context)
 
     Column {
@@ -129,19 +132,21 @@ fun WriteScreen(navController: NavController, viewModel: ViewModel, writeViewMod
         Row {
             Button(
                 onClick = {
-                    EmailService.insert(
-                        userLoged?.let {
-                            EmailCriacaoDto(
-                                assunto = assunto,
-                                idRemetente =  it.id,
-                                body = body,
-                                dataEnvio = LocalDate.now(),
-                                destinatarios = paraEmailList,
-                                ccs = ccEmailList,
-                                ccos = ccoEmailList
-                            )
-                        }
-                    )
+                    userLoged?.let {
+                        EmailEReceiverCriacaoDto(
+                            assunto = assunto,
+                            idRemetente = it.id,
+                            body = body,
+                            dataEnvio = LocalDate.now(),
+                            destinatarios = paraEmailList,
+                            ccs = ccEmailList,
+                            ccos = ccoEmailList
+                        )
+                    }?.let {
+                        emailService.insert(
+                            it
+                        )
+                    }
                     navController.navigate("second")
                 }) {
                 Text(text = "Enviar")

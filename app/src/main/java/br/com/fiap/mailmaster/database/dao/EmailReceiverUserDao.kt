@@ -5,20 +5,22 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
+import br.com.fiap.mailmaster.dtos.EmailReceiverUserCriacaoDto
+import br.com.fiap.mailmaster.models.EmailReceiverUser
 
 @Dao
 interface EmailReceiverUserDao {
 
     @Insert
-    fun insert(emailReceiverUserDao: EmailReceiverUserDao): Long
+    fun insert(emailReceiverUser: EmailReceiverUser): Long
 
     @Update
-    fun update(emailReceiverUserDao: EmailReceiverUserDao): Int
+    fun update(emailReceiverUser: EmailReceiverUser): Int
 
     @Delete
-    fun delete(emailReceiverUserDao: EmailReceiverUserDao): Int
+    fun delete(emailReceiverUser: EmailReceiverUser): Int
 
-    @Query("SELECT * FROM tb_receiver WHERE id_email = :id")
-    fun selectAll(id: Long): List<EmailReceiverUserDao>
+//    @Query("SELECT * FROM tb_receiver WHERE id_email = :id")
+//    fun selectByIdEmail(id: Long): List<EmailReceiverUser>
 
 }

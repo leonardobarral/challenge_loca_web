@@ -11,6 +11,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import br.com.fiap.mailmaster.dtos.UserCadastroDto
+import br.com.fiap.mailmaster.models.User
 import br.com.fiap.mailmaster.models.views.ViewModel
 import br.com.fiap.mailmaster.services.UserService
 
@@ -66,8 +67,15 @@ fun CreateUserScreen(navController: NavController, viewModel: ViewModel) {
         Row {
             Button(
                 onClick = {
-                    viewModel.updateUserCadastroDto(userEmail, userNome, userSenha, userSenha1)
-                    viewModel.updateLogedUser(userService.insert(userCadastroDto))
+
+                    userService.insert(
+                        UserCadastroDto(
+                            email = userEmail,
+                            senha = userSenha,
+                            senha1 = userSenha1,
+                            nome = userNome
+                        )
+                    )
                     navController.navigate("first")
                 }) {
                 Text(text = "Criar")

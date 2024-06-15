@@ -10,7 +10,7 @@ class UserRepository(context: Context) {
 
     var db = MailDB.getDatabase(context).UserDao()
 
-    fun insert(user: UserCadastroDto): User{
+    fun insert(user: User): Long{
         return db.insert(user = user)
     }
 
@@ -28,6 +28,10 @@ class UserRepository(context: Context) {
 
     fun selectId(id:Long): User{
         return db.selectId(id = id)
+    }
+
+    fun selectByEmail(email:String): Long{
+        return db.selectByEmail(email = email)
     }
 
 }

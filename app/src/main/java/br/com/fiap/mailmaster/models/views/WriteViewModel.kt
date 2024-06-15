@@ -3,11 +3,9 @@ package br.com.fiap.mailmaster.models.views
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import br.com.fiap.mailmaster.dtos.EmailCriacaoDto
 import br.com.fiap.mailmaster.dtos.UserCadastroDto
 import br.com.fiap.mailmaster.dtos.UserExibitionDto
 import br.com.fiap.mailmaster.dtos.UserLoginDto
-import br.com.fiap.mailmaster.models.Email
 import br.com.fiap.mailmaster.models.enums.BoxFolderEnum
 
 class WriteViewModel : ViewModel() {
