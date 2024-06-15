@@ -16,8 +16,8 @@ class Email(
 
     val assunto: String,
 
-    @ColumnInfo(name = "id_user_remetente")
-    val idRemetente: Long,
+    @ColumnInfo(name = "remetente")
+    val remetente: Long,
 
     val body: String,
 

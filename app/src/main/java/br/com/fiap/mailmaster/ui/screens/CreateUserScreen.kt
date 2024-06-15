@@ -11,7 +11,6 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavController
 import br.com.fiap.mailmaster.dtos.UserCadastroDto
-import br.com.fiap.mailmaster.models.User
 import br.com.fiap.mailmaster.models.views.ViewModel
 import br.com.fiap.mailmaster.services.UserService
 

@@ -2,9 +2,7 @@ package br.com.fiap.mailmaster.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverters
 
-@TypeConverters(DateConverter::class)
 @Entity(tableName = "tb_user")
 data class User(
 

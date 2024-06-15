@@ -3,9 +3,7 @@ package br.com.fiap.mailmaster.database.dao
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
-import androidx.room.Query
 import androidx.room.Update
-import br.com.fiap.mailmaster.dtos.EmailReceiverUserCriacaoDto
 import br.com.fiap.mailmaster.models.EmailReceiverUser
 
 @Dao
@@ -20,7 +18,7 @@ interface EmailReceiverUserDao {
     @Delete
     fun delete(emailReceiverUser: EmailReceiverUser): Int
 
-//    @Query("SELECT * FROM tb_receiver WHERE id_email = :id")
+//    @Query("SELECT * FROM tb_receiver WHERE id = :id")
 //    fun selectByIdEmail(id: Long): List<EmailReceiverUser>
 
 }

@@ -3,14 +3,13 @@ package br.com.fiap.mailmaster.dtos
 import br.com.fiap.mailmaster.models.enums.BoxFolderEnum
 import br.com.fiap.mailmaster.models.enums.PriorityEnum
 import java.time.LocalDate
-import java.time.LocalDateTime
 
 
 class EmailEReceiverCriacaoDto(
 
     val assunto: String,
 
-    val idRemetente: Long,
+    val remetente: Long,
 
     val body: String,
 
@@ -26,11 +25,10 @@ class EmailEReceiverCriacaoDto(
 
     val ccos: List<String>,
 
-    val dataRecebimento: LocalDateTime? = null,
+    val dataRecebimento: LocalDate? = null,
 
     val statusLeitura: Boolean = false,
 
     val boxSizeEmail: BoxFolderEnum = BoxFolderEnum.BOX
 
-) {
-}
+)

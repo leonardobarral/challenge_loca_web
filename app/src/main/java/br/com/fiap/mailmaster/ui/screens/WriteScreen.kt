@@ -135,7 +135,7 @@ fun WriteScreen(
                     userLoged?.let {
                         EmailEReceiverCriacaoDto(
                             assunto = assunto,
-                            idRemetente = it.id,
+                            remetente = it.id,
                             body = body,
                             dataEnvio = LocalDate.now(),
                             destinatarios = paraEmailList,

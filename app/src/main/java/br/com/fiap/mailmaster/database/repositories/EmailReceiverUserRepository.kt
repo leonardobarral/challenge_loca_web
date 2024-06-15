@@ -2,15 +2,14 @@ package br.com.fiap.mailmaster.database.repositories
 
 import android.content.Context
 import br.com.fiap.mailmaster.database.dao.MailDB
-import br.com.fiap.mailmaster.dtos.EmailReceiverUserCriacaoDto
-import br.com.fiap.mailmaster.models.Email
 import br.com.fiap.mailmaster.models.EmailReceiverUser
 
 class EmailReceiverUserRepository(context: Context) {
 
-    var db = MailDB.getDatabase(context).EmailReceiverUserDao()
-//
-    fun insert(emailReceiverUser: EmailReceiverUser): Long{
+    private var db = MailDB.getDatabase(context).EmailReceiverUserDao()
+
+    //
+    fun insert(emailReceiverUser: EmailReceiverUser): Long {
         return db.insert(emailReceiverUser = emailReceiverUser)
     }
 //

@@ -18,11 +18,11 @@ fun ItemLinhaComponente(
         Modifier.fillMaxWidth()
     ){
         Column {
-            Text(text = email.remetente.nome )
+            Text(text = email.remetente.toString() )
             Text(text = email.assunto)
         }
         Column {
-            Text(text = email.dataRecebimento.toString())
+            Text(text = email.dataEnvio.toString())
         }
 
     }

@@ -34,13 +34,13 @@ fun LoginScreen(navController: NavController,viewModel: ViewModel) {
     Column {
         Row {
             Text(text = "email")
-            OutlinedTextField(value = "", onValueChange = {
+            OutlinedTextField(value = userEmail, onValueChange = {
                 viewModel.updateUserEmail(it)
             })
         }
         Row {
             Text(text = "senha")
-            OutlinedTextField(value = "", onValueChange = {
+            OutlinedTextField(value = userSenha, onValueChange = {
                 viewModel.updateUserSenha(it)
             })
         }

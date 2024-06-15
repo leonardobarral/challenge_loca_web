@@ -59,7 +59,7 @@ fun BoxScreen(navController: NavController, viewModel: ViewModel) {
         Spacer(modifier = Modifier.height(10.dp))
 
         LazyRow(userScrollEnabled = true) {
-            items(listEmail) { it ->
+            items(listEmail) {
                 ItemLinhaComponente(
                     email = it
                 )

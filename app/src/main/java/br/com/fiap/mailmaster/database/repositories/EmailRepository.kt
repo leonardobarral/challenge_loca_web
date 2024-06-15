@@ -7,9 +7,10 @@ import br.com.fiap.mailmaster.models.Email
 
 class EmailRepository(context: Context) {
 
-    var db = MailDB.getDatabase(context).EmailDao()
-//
-    fun insert(email: Email): Long{
+    private var db = MailDB.getDatabase(context).EmailDao()
+
+    //
+    fun insert(email: Email): Long {
         return db.insert(email = email)
     }
 //
@@ -25,8 +26,8 @@ class EmailRepository(context: Context) {
 //        return db.login(senha=user.senha, email = user.email)
 //    }
 
-    fun findByIDUser(user: UserExibitionDto): List<Email>{
-        return db.findByIDUser(id = user.id)
+    fun findByIDUser(user: UserExibitionDto): List<Email> {
+        return db.findByIDUser(remetente = user.id)
     }
 
 }

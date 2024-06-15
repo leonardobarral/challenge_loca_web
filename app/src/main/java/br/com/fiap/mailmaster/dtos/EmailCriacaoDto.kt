@@ -9,7 +9,7 @@ class EmailCriacaoDto(
 
     val assunto: String,
 
-    val idRemetente: Long,
+    val remetente: Long,
 
     val body: String,
 

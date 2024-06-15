@@ -26,7 +26,7 @@ class EmailService(context: Context){
                 assunto = email.assunto,
                 body = email.body,
                 dataEnvio = email.dataEnvio,
-                idRemetente = email.idRemetente,
+                remetente = email.remetente,
                 idEmailResposta = email.idEmailResposta
             )
         )
