@@ -19,11 +19,11 @@ class EmailEReceiverCriacaoDto(
 
     val idEmailResposta: Long? = null,
 
-    val destinatarios: List<String>,
+    val destinatarios: List<String>?,
 
-    val ccs: List<String>,
+    val ccs: List<String>?,
 
-    val ccos: List<String>,
+    val ccos: List<String>?,
 
     val dataRecebimento: LocalDate? = null,
 

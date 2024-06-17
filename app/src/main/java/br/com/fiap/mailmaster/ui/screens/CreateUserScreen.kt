@@ -1,5 +1,6 @@
 package br.com.fiap.mailmaster.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.Button
@@ -13,6 +14,7 @@ import androidx.navigation.NavController
 import br.com.fiap.mailmaster.dtos.UserCadastroDto
 import br.com.fiap.mailmaster.models.views.ViewModel
 import br.com.fiap.mailmaster.services.UserService
+
 
 @Composable
 fun CreateUserScreen(navController: NavController, viewModel: ViewModel) {
@@ -67,14 +69,18 @@ fun CreateUserScreen(navController: NavController, viewModel: ViewModel) {
             Button(
                 onClick = {
 
-                    userService.insert(
-                        UserCadastroDto(
-                            email = userEmail,
-                            senha = userSenha,
-                            senha1 = userSenha1,
-                            nome = userNome
-                        )
+                    val userCadastro= UserCadastroDto(
+                    email = userEmail,
+                    senha = userSenha,
+                    senha1 = userSenha1,
+                    nome = userNome
                     )
+
+                    val id = userService.insert(userCadastro)
+
+                    Log.d("LEO - PAGINA", id.toString())
+                    Log.d("LEO - PAGINA - INSERT", userCadastro.toString())
+
                     navController.navigate("first")
                 }) {
                 Text(text = "Criar")

@@ -6,8 +6,6 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
@@ -35,31 +33,24 @@ class MainActivity : ComponentActivity() {
 
                     val navController = rememberNavController()
                     val viewModel: ViewModel = viewModel()
+                    val writeViewModel: WriteViewModel = viewModel()
 
                     NavHost(navController = navController, startDestination = "first") {
 
                         composable("first") {
-                            LoginScreen(navController, ViewModel())
+                            LoginScreen(navController, viewModel)
                         }
 
                         composable("second") {
-                            val userLoged by viewModel.userLoged.observeAsState()
-                            userLoged?.let { BoxScreen(navController, ViewModel()) }
+                            BoxScreen(navController, viewModel)
                         }
 
                         composable("third") {
-                            CreateUserScreen(navController, ViewModel())
+                            CreateUserScreen(navController, viewModel)
                         }
 
                         composable("fourth") {
-                            val userLoged by viewModel.userLoged.observeAsState()
-                            userLoged?.let {
-                                WriteScreen(
-                                    navController,
-                                    ViewModel(),
-                                    WriteViewModel()
-                                )
-                            }
+                            WriteScreen(navController, viewModel, writeViewModel)
                         }
                     }
                 }
@@ -67,6 +58,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
 
 
 

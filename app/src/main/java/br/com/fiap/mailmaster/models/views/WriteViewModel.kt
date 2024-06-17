@@ -3,10 +3,6 @@ package br.com.fiap.mailmaster.models.views
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import br.com.fiap.mailmaster.dtos.UserCadastroDto
-import br.com.fiap.mailmaster.dtos.UserExibitionDto
-import br.com.fiap.mailmaster.dtos.UserLoginDto
-import br.com.fiap.mailmaster.models.enums.BoxFolderEnum
 
 class WriteViewModel : ViewModel() {
 
@@ -19,15 +15,18 @@ class WriteViewModel : ViewModel() {
         _paraEmail.value = novoValor
     }
 
-    //listEmail
-    private val _paraEmailList = MutableLiveData<List<String>>()
+    private val _paraEmailList = MutableLiveData<List<String>>(emptyList())
     val paraEmailList: LiveData<List<String>> = _paraEmailList
 
     fun appendParaEmailList(novoValor: String) {
-        val listaAtual = _paraEmailList.value.orEmpty().toMutableList()
-        listaAtual.add(novoValor)
-        _paraEmailList.value = listaAtual
+        if (novoValor.isNotBlank()) {
+            val currentList = _paraEmailList.value?.toMutableList() ?: mutableListOf()
+            currentList.add(novoValor)
+            _paraEmailList.value = currentList
+            _paraEmail.value = ""
+        }
     }
+
 
     //CC
     //Email
@@ -39,13 +38,16 @@ class WriteViewModel : ViewModel() {
     }
 
     //listEmail
-    private val _ccEmailList = MutableLiveData<List<String>>()
+    private val _ccEmailList = MutableLiveData<List<String>>(emptyList())
     val ccEmailList: LiveData<List<String>> = _ccEmailList
 
     fun appendCcEmailList(novoValor: String) {
-        val listaAtual = _ccEmailList.value.orEmpty().toMutableList()
-        listaAtual.add(novoValor)
-        _ccEmailList.value = listaAtual
+        if (novoValor.isNotBlank()) {
+            val currentList = _ccEmailList.value?.toMutableList() ?: mutableListOf()
+            currentList.add(novoValor)
+            _ccEmailList.value = currentList
+            _ccEmail.value = ""
+        }
     }
 
     //CCO
@@ -58,13 +60,16 @@ class WriteViewModel : ViewModel() {
     }
 
     //listEmail
-    private val _ccoEmailList = MutableLiveData<List<String>>()
+    private val _ccoEmailList = MutableLiveData<List<String>>(emptyList())
     val ccoEmailList: LiveData<List<String>> = _ccoEmailList
 
     fun appendCcoEmailList(novoValor: String) {
-        val listaAtual = _ccoEmailList.value.orEmpty().toMutableList()
-        listaAtual.add(novoValor)
-        _ccoEmailList.value = listaAtual
+        if (novoValor.isNotBlank()) {
+            val currentList = _ccoEmailList.value?.toMutableList() ?: mutableListOf()
+            currentList.add(novoValor)
+            _ccoEmailList.value = currentList
+            _ccoEmail.value = ""
+        }
     }
 
     //assunto
@@ -84,96 +89,94 @@ class WriteViewModel : ViewModel() {
         _body.value = novoValor
     }
 
-
-
-
-
-
-
-    //boxFolder
-    private val _boxFolder = MutableLiveData<BoxFolderEnum>()
-    val boxFolder: LiveData<BoxFolderEnum> = _boxFolder
-
-    fun updateBoxFolder(novoValor: BoxFolderEnum) {
-        _boxFolder.value = novoValor
-    }
-
-
-    //userLoged
-    private val _userLoged = MutableLiveData<UserExibitionDto>()
-    val userLoged: LiveData<UserExibitionDto> = _userLoged
-
-    fun updateLogedUser(novoValor: UserExibitionDto) {
-        _userLoged.value = novoValor
-    }
-
-
-    //userLoginDto
-    private val _userLoginDto = MutableLiveData<UserLoginDto>()
-    val userLoginDto: LiveData<UserLoginDto> = _userLoginDto
-
-    fun updateUserLoginDto(novoValorEmail: String, novoValorSenha: String) {
-        _userLoginDto.value = UserLoginDto(
-            email = novoValorEmail,
-            senha = novoValorSenha
-        )
-    }
-
-    //userCreateDto
-    private val _userCadastroDto = MutableLiveData<UserCadastroDto>()
-    val userCadastroDto: LiveData<UserCadastroDto> = _userCadastroDto
-
-    fun updateUserCadastroDto(
-            novoValorEmail: String,
-            novoValorNome:String,
-            novoValorSenha: String,
-            novoValorSenha1:String,
-        ) {
-        _userCadastroDto.value = UserCadastroDto(
-            email = novoValorEmail,
-            nome = novoValorNome,
-            senha = novoValorSenha,
-            senha1 = novoValorSenha1,
-        )
-    }
-
-
-    //userEmail
-    private val _userEmail = MutableLiveData<String>()
-    val userEmail: LiveData<String> = _userEmail
-
-    fun updateUserEmail(novoValor: String) {
-        _userEmail.value = novoValor
-    }
-
-
-    //userNome
-    private val _userNome = MutableLiveData<String>()
-    val userNome: LiveData<String> = _userNome
-
-    fun updateUserNome(novoValor: String) {
-        _userNome.value = novoValor
-    }
-
-
-    //userSenha
-    private val _userSenha = MutableLiveData<String>()
-    val userSenha: LiveData<String> = _userSenha
-
-    fun updateUserSenha(novoValor: String) {
-        _userSenha.value = novoValor
-    }
-
-
-    //userConfirmeSenha
-    private val _userSenha1 = MutableLiveData<String>()
-    val userSenha1: LiveData<String> = _userSenha1
-
-    fun updateUserSenha1(novoValor: String) {
-        _userSenha1.value = novoValor
-    }
-
-
+//
+//
+//
+//
+//
+//
+//    //boxFolder
+//    private val _boxFolder = MutableLiveData<BoxFolderEnum>()
+//    val boxFolder: LiveData<BoxFolderEnum> = _boxFolder
+//
+//    fun updateBoxFolder(novoValor: BoxFolderEnum) {
+//        _boxFolder.value = novoValor
+//    }
+//
+//
+//    //userLoged
+//    private val _userLoged = MutableLiveData<UserExibitionDto>()
+//    val userLoged: LiveData<UserExibitionDto> = _userLoged
+//
+//    fun updateLogedUser(novoValor: UserExibitionDto) {
+//        _userLoged.value = novoValor
+//    }
+//
+//
+//    //userLoginDto
+//    private val _userLoginDto = MutableLiveData<UserLoginDto>()
+//    val userLoginDto: LiveData<UserLoginDto> = _userLoginDto
+//
+//    fun updateUserLoginDto(novoValorEmail: String, novoValorSenha: String) {
+//        _userLoginDto.value = UserLoginDto(
+//            email = novoValorEmail,
+//            senha = novoValorSenha
+//        )
+//    }
+//
+//    //userCreateDto
+//    private val _userCadastroDto = MutableLiveData<UserCadastroDto>()
+//    val userCadastroDto: LiveData<UserCadastroDto> = _userCadastroDto
+//
+//    fun updateUserCadastroDto(
+//            novoValorEmail: String,
+//            novoValorNome:String,
+//            novoValorSenha: String,
+//            novoValorSenha1:String,
+//        ) {
+//        _userCadastroDto.value = UserCadastroDto(
+//            email = novoValorEmail,
+//            nome = novoValorNome,
+//            senha = novoValorSenha,
+//            senha1 = novoValorSenha1,
+//        )
+//    }
+//
+//
+//    //userEmail
+//    private val _userEmail = MutableLiveData<String>()
+//    val userEmail: LiveData<String> = _userEmail
+//
+//    fun updateUserEmail(novoValor: String) {
+//        _userEmail.value = novoValor
+//    }
+//
+//
+//    //userNome
+//    private val _userNome = MutableLiveData<String>()
+//    val userNome: LiveData<String> = _userNome
+//
+//    fun updateUserNome(novoValor: String) {
+//        _userNome.value = novoValor
+//    }
+//
+//
+//    //userSenha
+//    private val _userSenha = MutableLiveData<String>()
+//    val userSenha: LiveData<String> = _userSenha
+//
+//    fun updateUserSenha(novoValor: String) {
+//        _userSenha.value = novoValor
+//    }
+//
+//
+//    //userConfirmeSenha
+//    private val _userSenha1 = MutableLiveData<String>()
+//    val userSenha1: LiveData<String> = _userSenha1
+//
+//    fun updateUserSenha1(novoValor: String) {
+//        _userSenha1.value = novoValor
+//    }
 
 
 }

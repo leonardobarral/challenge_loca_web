@@ -30,4 +30,9 @@ class EmailReceiverUser(
     @ColumnInfo(name = "box_folder")
     val boxSizeEmail: String = BoxFolderEnum.BOX.toString()
 
-)
+
+) {
+    override fun toString(): String {
+        return "EmailReceiverUser(id=$id, idEmail=$idEmail, idReceiver=$idReceiver, receiverType='$receiverType', dataRecebimento=$dataRecebimento, statusLeitura=$statusLeitura, boxSizeEmail='$boxSizeEmail')"
+    }
+}

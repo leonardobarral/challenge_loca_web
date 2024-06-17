@@ -1,6 +1,7 @@
 package br.com.fiap.mailmaster.database.repositories
 
 import android.content.Context
+import android.util.Log
 import br.com.fiap.mailmaster.database.dao.MailDB
 import br.com.fiap.mailmaster.models.EmailReceiverUser
 
@@ -10,6 +11,9 @@ class EmailReceiverUserRepository(context: Context) {
 
     //
     fun insert(emailReceiverUser: EmailReceiverUser): Long {
+        Log.d("LEO - REPOSITORY - EMAILRECEIVER - idReceiver", emailReceiverUser.idReceiver.toString())
+        Log.d("LEO - REPOSITORY - EMAILRECEIVER - type", emailReceiverUser.receiverType)
+        Log.d("LEO - REPOSITORY - EMAILRECEIVER - idEmail", emailReceiverUser.idEmail.toString())
         return db.insert(emailReceiverUser = emailReceiverUser)
     }
 //
@@ -23,10 +27,6 @@ class EmailReceiverUserRepository(context: Context) {
 //
 //    fun login(user: UserLoginDto): User{
 //        return db.login(senha=user.senha, email = user.email)
-//    }
-
-//    fun findByIDUser(id : Long ): List<EmailReceiverUser>{
-//        return db.selectByIdEmail(id = id)
 //    }
 
 }

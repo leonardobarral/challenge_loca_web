@@ -1,6 +1,7 @@
 package br.com.fiap.mailmaster.database.repositories
 
 import android.content.Context
+import android.util.Log
 import br.com.fiap.mailmaster.database.dao.MailDB
 import br.com.fiap.mailmaster.dtos.UserLoginDto
 import br.com.fiap.mailmaster.models.User
@@ -10,7 +11,10 @@ class UserRepository(context: Context) {
     private var db = MailDB.getDatabase(context).UserDao()
 
     fun insert(user: User): Long {
-        return db.insert(user = user)
+        val idInsert = db.insert(user = user)
+        Log.d("LEO - REPOSITORY", idInsert.toString())
+        Log.d("LEO - REPOSITORY - USER", user.toString())
+        return idInsert
     }
 
     fun update(user: User): Int {
@@ -21,7 +25,7 @@ class UserRepository(context: Context) {
         return db.delete(user = user)
     }
 
-    fun login(user: UserLoginDto): User {
+    fun login(user: UserLoginDto): User? {
         return db.login(senha = user.senha, email = user.email)
     }
 

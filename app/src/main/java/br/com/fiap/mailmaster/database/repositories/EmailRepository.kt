@@ -2,7 +2,6 @@ package br.com.fiap.mailmaster.database.repositories
 
 import android.content.Context
 import br.com.fiap.mailmaster.database.dao.MailDB
-import br.com.fiap.mailmaster.dtos.UserExibitionDto
 import br.com.fiap.mailmaster.models.Email
 
 class EmailRepository(context: Context) {
@@ -26,8 +25,12 @@ class EmailRepository(context: Context) {
 //        return db.login(senha=user.senha, email = user.email)
 //    }
 
-    fun findByIDUser(user: UserExibitionDto): List<Email> {
-        return db.findByIDUser(remetente = user.id)
+    fun findByIDUser(id: Long): List<Email> {
+        return db.findByIDUser(remetente = id)
+    }
+
+    fun selectByIdReceiver(id: Long): List<Email> {
+        return db.selectByIdReceiver(idReceiver = id)
     }
 
 }

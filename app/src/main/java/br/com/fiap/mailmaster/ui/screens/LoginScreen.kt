@@ -1,5 +1,6 @@
 package br.com.fiap.mailmaster.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -14,14 +15,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import br.com.fiap.mailmaster.dtos.UserExibitionDto
 import br.com.fiap.mailmaster.dtos.UserLoginDto
 import br.com.fiap.mailmaster.models.views.ViewModel
 import br.com.fiap.mailmaster.services.UserService
 
-@Composable
-fun LoginScreen(navController: NavController,viewModel: ViewModel) {
 
-    //val userLoged by viewModel.userLoged.observeAsState(initial = UserExibitionDto(0,"",""))
+@Composable
+fun LoginScreen(navController: NavController, viewModel: ViewModel) {
+
+    val userLoged by viewModel.userLoged.observeAsState(initial = UserExibitionDto(0,"",""))
     val userLoginDto by viewModel.userLoginDto.observeAsState(initial = UserLoginDto("", ""))
 
     val userEmail by viewModel.userEmail.observeAsState(initial = "")
@@ -55,9 +58,24 @@ fun LoginScreen(navController: NavController,viewModel: ViewModel) {
             Spacer(modifier = Modifier.width(10.dp))
             Button(
                 onClick = {
-                    viewModel.updateUserLoginDto(userEmail,userSenha)
-                    viewModel.updateLogedUser(userService.login(userLoginDto))
+
+                    userService.login(
+                        UserLoginDto(
+                            email = userEmail,
+                            senha = userSenha
+                        )
+                    )?.let {
+                        viewModel.updateLogedUser(
+                            it
+                        )
+                        userLoged.let { Log.wtf("LEO - ID", it.nome) }
+                    }
+
+
+
+
                     navController.navigate("second")
+
                 }) {
                 Text(text = "Login")
             }

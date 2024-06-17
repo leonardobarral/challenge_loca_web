@@ -5,19 +5,22 @@ import br.com.fiap.mailmaster.database.repositories.EmailReceiverUserRepository
 import br.com.fiap.mailmaster.database.repositories.EmailRepository
 import br.com.fiap.mailmaster.database.repositories.UserRepository
 import br.com.fiap.mailmaster.dtos.EmailEReceiverCriacaoDto
-import br.com.fiap.mailmaster.dtos.UserExibitionDto
 import br.com.fiap.mailmaster.models.Email
 import br.com.fiap.mailmaster.models.EmailReceiverUser
 import br.com.fiap.mailmaster.models.enums.ReceiverTypeEnum
 
-class EmailService(context: Context){
+class EmailService(context: Context) {
 
     private val emailRepository = EmailRepository(context)
     private val userRepository = UserRepository(context)
     private val emailReceiverUserRepository = EmailReceiverUserRepository(context)
 
-    fun findByIDUser(user: UserExibitionDto): List<Email> {
-        return emailRepository.findByIDUser(user = user)
+    fun findByIDUserSent(id: Long): List<Email> {
+        return emailRepository.findByIDUser(id = id)
+    }
+
+    fun findByIDUserReceiver(id: Long): List<Email> {
+        return emailRepository.selectByIdReceiver(id = id)
     }
 
     fun insert(email: EmailEReceiverCriacaoDto) {
@@ -31,13 +34,40 @@ class EmailService(context: Context){
             )
         )
 
-        for (i in email.destinatarios) {
+        val destinatariosUnicos = email.destinatarios?.distinct() ?: emptyList()
+        for (i in destinatariosUnicos) {
             emailReceiverUserRepository.insert(
                 EmailReceiverUser(
                     dataRecebimento = email.dataRecebimento,
                     idEmail = newId,
                     idReceiver = userRepository.selectByEmail(i),
                     receiverType = ReceiverTypeEnum.PARA.toString(),
+                    statusLeitura = false
+                )
+            )
+        }
+
+        val ccsUnicos = email.ccs?.distinct() ?: emptyList()
+        for (i in ccsUnicos) {
+            emailReceiverUserRepository.insert(
+                EmailReceiverUser(
+                    dataRecebimento = email.dataRecebimento,
+                    idEmail = newId,
+                    idReceiver = userRepository.selectByEmail(i),
+                    receiverType = ReceiverTypeEnum.CC.toString(),
+                    statusLeitura = false
+                )
+            )
+        }
+
+        val ccosUnicos = email.ccos?.distinct() ?: emptyList()
+        for (i in ccosUnicos) {
+            emailReceiverUserRepository.insert(
+                EmailReceiverUser(
+                    dataRecebimento = email.dataRecebimento,
+                    idEmail = newId,
+                    idReceiver = userRepository.selectByEmail(i),
+                    receiverType = ReceiverTypeEnum.CCO.toString(),
                     statusLeitura = false
                 )
             )
