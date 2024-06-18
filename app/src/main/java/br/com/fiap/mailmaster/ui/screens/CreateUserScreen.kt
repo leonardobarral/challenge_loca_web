@@ -1,15 +1,31 @@
 package br.com.fiap.mailmaster.ui.screens
 
-import android.util.Log
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.com.fiap.mailmaster.dtos.UserCadastroDto
 import br.com.fiap.mailmaster.models.views.ViewModel
@@ -19,15 +35,6 @@ import br.com.fiap.mailmaster.services.UserService
 @Composable
 fun CreateUserScreen(navController: NavController, viewModel: ViewModel) {
 
-    //val userLoged by viewModel.userLoged.observeAsState(initial = UserExibitionDto(0,"",""))
-    val userCadastroDto by viewModel.userCadastroDto.observeAsState(
-        initial = UserCadastroDto(
-            "",
-            "",
-            "",
-            ""
-        )
-    )
 
     val userEmail by viewModel.userEmail.observeAsState(initial = "")
     val userSenha by viewModel.userSenha.observeAsState(initial = "")
@@ -36,55 +43,106 @@ fun CreateUserScreen(navController: NavController, viewModel: ViewModel) {
 
     val context = LocalContext.current
     val userService = UserService(context)
-//    val userRepository = UserRepository(context)
 
-    Column {
-        Row {
-            Text(text = "email")
-            OutlinedTextField(value = userEmail, onValueChange = {
-                viewModel.updateUserEmail(it)
-            })
-        }
-        Row {
-            Text(text = "nome")
-            OutlinedTextField(value = userNome, onValueChange = {
-                viewModel.updateUserNome(it)
-            })
-        }
-        Row {
-            Text(text = "senha")
-            OutlinedTextField(value = userSenha, onValueChange = {
-                viewModel.updateUserSenha(it)
-            })
-        }
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        shape = RoundedCornerShape(8.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = "Cadastro",
+                style = TextStyle(
+                    fontSize = 32.sp
+                ),
+                color = Color.DarkGray,
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
 
-        Row {
-            Text(text = "confirmar senha")
-            OutlinedTextField(value = userSenha1, onValueChange = {
-                viewModel.updateUserSenha1(it)
-            })
-        }
+            OutlinedTextField(
+                value = userEmail,
+                onValueChange = {
+                    viewModel.updateUserEmail(it)
+                }, label = { Text(text = "Email") },
+                modifier = Modifier.fillMaxWidth()
+            )
 
-        Row {
-            Button(
-                onClick = {
 
-                    val userCadastro= UserCadastroDto(
-                    email = userEmail,
-                    senha = userSenha,
-                    senha1 = userSenha1,
-                    nome = userNome
-                    )
+            OutlinedTextField(
+                value = userNome, onValueChange = {
+                    viewModel.updateUserNome(it)
+                },
+                label = { Text(text = "Nome") },
+                modifier = Modifier.fillMaxWidth()
+            )
 
-                    val id = userService.insert(userCadastro)
 
-                    Log.d("LEO - PAGINA", id.toString())
-                    Log.d("LEO - PAGINA - INSERT", userCadastro.toString())
+            OutlinedTextField(
+                value = userSenha, onValueChange = {
+                    viewModel.updateUserSenha(it)
+                },
+                label = { Text(text = "Senha") },
+                modifier = Modifier.fillMaxWidth()
+            )
 
-                    navController.navigate("first")
-                }) {
-                Text(text = "Criar")
+
+
+            OutlinedTextField(
+                value = userSenha1, onValueChange = {
+                    viewModel.updateUserSenha1(it)
+                },
+                label = { Text(text = "Confirmar Senha") },
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Spacer(modifier = Modifier.height(25.dp))
+
+            Row {
+                Button(
+                    onClick = {
+                        navController.navigate("first")
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF00796B)),
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(50.dp),
+                    shape = RoundedCornerShape(8.dp)
+                ) {
+                    Text(text = "Voltar", color = Color.White)
+                }
+                Spacer(modifier = Modifier.width(10.dp))
+                Button(
+                    onClick = {
+                        userService.insert(
+                            UserCadastroDto(
+                                email = userEmail,
+                                senha = userSenha,
+                                senha1 = userSenha1,
+                                nome = userNome
+                            )
+                        )
+
+                        viewModel.updateUserEmail("")
+                        viewModel.updateUserSenha("")
+                        viewModel.updateUserSenha1("")
+                        viewModel.updateUserNome("")
+
+                        navController.navigate("first")
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF00796B)),
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(50.dp),
+                    shape = RoundedCornerShape(8.dp)) {
+                    Text(text = "Criar", color = Color.White)
+                }
             }
+
         }
     }
 }
