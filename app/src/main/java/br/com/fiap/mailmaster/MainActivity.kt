@@ -11,11 +11,13 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import br.com.fiap.mailmaster.models.views.ReadViewModel
 import br.com.fiap.mailmaster.models.views.ViewModel
 import br.com.fiap.mailmaster.models.views.WriteViewModel
 import br.com.fiap.mailmaster.ui.screens.BoxScreen
 import br.com.fiap.mailmaster.ui.screens.CreateUserScreen
 import br.com.fiap.mailmaster.ui.screens.LoginScreen
+import br.com.fiap.mailmaster.ui.screens.ReadScreen
 import br.com.fiap.mailmaster.ui.screens.WriteScreen
 import br.com.fiap.mailmaster.ui.theme.MailMasterTheme
 
@@ -34,6 +36,7 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     val viewModel: ViewModel = viewModel()
                     val writeViewModel: WriteViewModel = viewModel()
+                    val readViewModel: ReadViewModel = viewModel()
 
                     NavHost(navController = navController, startDestination = "first") {
 
@@ -42,7 +45,7 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable("second") {
-                            BoxScreen(navController, viewModel)
+                            BoxScreen(navController, viewModel,readViewModel)
                         }
 
                         composable("third") {
@@ -51,6 +54,10 @@ class MainActivity : ComponentActivity() {
 
                         composable("fourth") {
                             WriteScreen(navController, viewModel, writeViewModel)
+                        }
+
+                        composable("fiftieth") {
+                            ReadScreen(navController, viewModel,readViewModel)
                         }
                     }
                 }

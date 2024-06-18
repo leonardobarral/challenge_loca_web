@@ -29,4 +29,9 @@ class Email(
     @ColumnInfo(name = "id_email_resposta")
     val idEmailResposta: Long?
 
-)
+
+) {
+    override fun toString(): String {
+        return "Email(id=$id, assunto='$assunto', remetente=$remetente, body='$body', dataEnvio=$dataEnvio, prioridade='$prioridade', idEmailResposta=$idEmailResposta)"
+    }
+}

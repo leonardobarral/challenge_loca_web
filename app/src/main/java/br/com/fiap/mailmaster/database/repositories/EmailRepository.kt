@@ -29,8 +29,10 @@ class EmailRepository(context: Context) {
         return db.findByIDUser(remetente = id)
     }
 
-    fun selectByIdReceiver(id: Long): List<Email> {
-        return db.selectByIdReceiver(idReceiver = id)
+    fun selectByIdReceiver(id: Long, box: String): List<Email> {
+        return db.selectByIdReceiver(idReceiver = id, box = box)
     }
+
+
 
 }

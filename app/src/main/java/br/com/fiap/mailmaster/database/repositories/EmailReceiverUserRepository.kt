@@ -1,7 +1,6 @@
 package br.com.fiap.mailmaster.database.repositories
 
 import android.content.Context
-import android.util.Log
 import br.com.fiap.mailmaster.database.dao.MailDB
 import br.com.fiap.mailmaster.models.EmailReceiverUser
 
@@ -11,15 +10,31 @@ class EmailReceiverUserRepository(context: Context) {
 
     //
     fun insert(emailReceiverUser: EmailReceiverUser): Long {
-        Log.d("LEO - REPOSITORY - EMAILRECEIVER - idReceiver", emailReceiverUser.idReceiver.toString())
-        Log.d("LEO - REPOSITORY - EMAILRECEIVER - type", emailReceiverUser.receiverType)
-        Log.d("LEO - REPOSITORY - EMAILRECEIVER - idEmail", emailReceiverUser.idEmail.toString())
         return db.insert(emailReceiverUser = emailReceiverUser)
     }
-//
-//    fun update(user: User): Int{
-//        return db.update(user = user)
-//    }
+
+    //
+    fun update(emailReceiverUser: EmailReceiverUser): Int {
+        return db.update(emailReceiverUser = emailReceiverUser)
+    }
+
+    fun updateStatus(emailId: Long, userId: Long): Int {
+        return db.updateStatus(emailId = emailId, userId = userId)
+    }
+
+    fun updateBox(emailId: Long, userId: Long, box: String): Int {
+        return db.updateBox(emailId = emailId, userId = userId, box = box)
+    }
+
+    fun findByIdUserIdEmail(emailId: Long, userId: Long): EmailReceiverUser {
+        return db.findByIdUserIdEmail(emailId = emailId, userId = userId)
+    }
+
+    fun findByIdEmail(emailId: Long): List<EmailReceiverUser> {
+        return db.findByIdEmail(emailId = emailId)
+    }
+
+
 //
 //    fun delete(user: User): Int{
 //        return db.delete(user = user)

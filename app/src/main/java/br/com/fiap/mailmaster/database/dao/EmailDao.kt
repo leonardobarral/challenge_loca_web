@@ -25,7 +25,6 @@ interface EmailDao {
     @Query("SELECT * FROM tb_email WHERE remetente = :remetente")
     fun findByIDUser(remetente: Long): List<Email>
 
-    @Query("SELECT e.* FROM tb_email e INNER JOIN tb_receiver er ON e.id = er.idEmail WHERE er.idReceiver = :idReceiver")
-    fun selectByIdReceiver(idReceiver: Long): List<Email>
-
+    @Query("SELECT e.* FROM tb_email e INNER JOIN tb_receiver er ON e.id = er.idEmail WHERE er.idReceiver = :idReceiver AND er.box_folder = :box")
+    fun selectByIdReceiver(idReceiver: Long, box : String): List<Email>
 }

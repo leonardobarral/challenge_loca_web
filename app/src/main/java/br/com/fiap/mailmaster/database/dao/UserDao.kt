@@ -20,7 +20,7 @@
         fun delete(user: User): Int
 
         @Query("SELECT * FROM tb_user WHERE id = :id")
-        fun selectId(id: Long): User
+        fun selectById(id: Long): User
 
         @Query("SELECT * FROM tb_user WHERE senha = :senha AND email = :email")
         fun login(senha: String, email: String): User?

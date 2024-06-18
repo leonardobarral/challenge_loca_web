@@ -12,8 +12,6 @@ class UserRepository(context: Context) {
 
     fun insert(user: User): Long {
         val idInsert = db.insert(user = user)
-        Log.d("LEO - REPOSITORY", idInsert.toString())
-        Log.d("LEO - REPOSITORY - USER", user.toString())
         return idInsert
     }
 
@@ -29,8 +27,8 @@ class UserRepository(context: Context) {
         return db.login(senha = user.senha, email = user.email)
     }
 
-    fun selectId(id: Long): User {
-        return db.selectId(id = id)
+    fun selectById(id: Long): User {
+        return db.selectById(id = id)
     }
 
     fun selectByEmail(email: String): Long {

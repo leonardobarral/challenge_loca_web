@@ -17,28 +17,38 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import br.com.fiap.mailmaster.models.enums.BoxFolderEnum
+import br.com.fiap.mailmaster.models.views.ReadViewModel
 import br.com.fiap.mailmaster.models.views.ViewModel
+import br.com.fiap.mailmaster.services.EmailReceiverUserService
 import br.com.fiap.mailmaster.services.EmailService
+import br.com.fiap.mailmaster.services.UserService
 import br.com.fiap.mailmaster.ui.componentes.ItemLinhaComponente
+import br.com.fiap.mailmaster.ui.componentes.ItemLinhaComponenteSent
 
 
 @Composable
-fun BoxScreen(navController: NavController, viewModel: ViewModel) {
+fun BoxScreen(navController: NavController, viewModel: ViewModel, readViewModel: ReadViewModel) {
 
     val context = LocalContext.current
     val emailService = EmailService(context)
+    val emailReceiverUser = EmailReceiverUserService(context)
+    val userService = UserService(context)
 
     val userLoged by viewModel.userLoged.observeAsState()
     val boxFolder by viewModel.boxFolder.observeAsState(initial = BoxFolderEnum.BOX)
+    val listEmail by viewModel.listEmail.observeAsState(
+        initial = emailService.findByIDUserReceiver(
+            userLoged!!.id,
+            boxFolder.toString()
+        )
+    )
 
-    val listEmail by viewModel.listEmail.observeAsState(initial = emailService.findByIDUserReceiver(userLoged!!.id))
-
-    fun atualizarBoxFolder (){
+    fun atualizarBoxFolder() {
         if (boxFolder == BoxFolderEnum.SENT) {
             userLoged?.let { emailService.findByIDUserSent(it.id) }
                 ?.let { viewModel.updateListEmail(it) }
         } else {
-            userLoged?.let { emailService.findByIDUserReceiver(it.id) }
+            userLoged?.let { emailService.findByIDUserReceiver(it.id, boxFolder.toString()) }
                 ?.let { viewModel.updateListEmail(it) }
         }
     }
@@ -57,17 +67,12 @@ fun BoxScreen(navController: NavController, viewModel: ViewModel) {
                 }
             }
             Column {
-
-
                 Row {
                     Column {
                         Row {
                             Text(text = boxFolder.name)
                             Spacer(modifier = Modifier.width(10.dp))
                             userLoged?.let { Text(text = it.nome) }
-                        }
-                        Row {
-                            userLoged?.let { Text(text = it.email) }
                         }
                     }
                 }
@@ -88,10 +93,45 @@ fun BoxScreen(navController: NavController, viewModel: ViewModel) {
                 Spacer(modifier = Modifier.height(10.dp))
 
                 LazyColumn(userScrollEnabled = true) {
-                    items(listEmail) {
-                        ItemLinhaComponente(
-                            email = it
-                        )
+                    items(listEmail) { it ->
+                        if (boxFolder == BoxFolderEnum.SENT) {
+                            userService.selecteById(it.remetente)?.let { it1 ->
+                                userLoged?.let { it2 ->
+                                    emailReceiverUser.findByIdEmail(
+                                        it.id
+                                    )
+                                }?.let { it3 ->
+                                    ItemLinhaComponenteSent(
+                                        email = it,
+                                        remetente = it1,
+                                        receivers = it3,
+                                        onClick = {
+                                            readViewModel.updateEmalRead(it)
+                                            navController.navigate("second")
+                                        }
+                                    )
+                                }
+                            }
+                        } else {
+                            userService.selecteById(it.remetente)?.let { it1 ->
+                                userLoged?.let { it2 ->
+                                    emailReceiverUser.findByIdUserIdEmail(
+                                        it.id,
+                                        it2.id
+                                    )
+                                }?.let { it3 ->
+                                    ItemLinhaComponente(
+                                        email = it,
+                                        remetente = it1,
+                                        receiver = it3,
+                                        onClick = {
+                                            readViewModel.updateEmalRead(it)
+                                            navController.navigate("second")
+                                        }
+                                    )
+                                }
+                            }
+                        }
                     }
                 }
 

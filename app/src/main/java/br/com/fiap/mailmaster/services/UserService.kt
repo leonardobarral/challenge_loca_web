@@ -34,6 +34,11 @@ class UserService(context: Context) {
         val user = userRepository.login(user = user)
         return user?.let { UserExibitionDto(it) }
     }
+
+    fun selecteById(id: Long): UserExibitionDto? {
+        val user = userRepository.selectById(id = id)
+        return user?.let { UserExibitionDto(it) }
+    }
 }
 
 

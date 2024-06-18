@@ -19,9 +19,19 @@ class EmailService(context: Context) {
         return emailRepository.findByIDUser(id = id)
     }
 
-    fun findByIDUserReceiver(id: Long): List<Email> {
-        return emailRepository.selectByIdReceiver(id = id)
+    fun findByIDUserReceiver(id: Long, box: String): List<Email> {
+        return emailRepository.selectByIdReceiver(id = id, box = box)
     }
+
+    fun updateStatus(emailId: Long, userId: Long): Int {
+        return emailReceiverUserRepository.updateStatus(emailId = emailId, userId = userId)
+    }
+
+    fun updateBox(emailId: Long, userId: Long, box: String): Int {
+        return emailReceiverUserRepository.updateBox(emailId = emailId, userId = userId, box = box)
+    }
+
+
 
     fun insert(email: EmailEReceiverCriacaoDto) {
         val newId = emailRepository.insert(

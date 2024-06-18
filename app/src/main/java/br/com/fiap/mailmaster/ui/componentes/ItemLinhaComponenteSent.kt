@@ -14,10 +14,10 @@ import br.com.fiap.mailmaster.models.Email
 import br.com.fiap.mailmaster.models.EmailReceiverUser
 
 @Composable
-fun ItemLinhaComponente(
+fun ItemLinhaComponenteSent(
     email: Email,
     remetente: UserExibitionDto,
-    receiver: EmailReceiverUser,
+    receivers: List<EmailReceiverUser>,
     onClick: (Email) -> Unit
 ) {
     //Image(painter = , contentDescription = )
@@ -34,7 +34,7 @@ fun ItemLinhaComponente(
                 ) {
                     Column {
                         Text(text = remetente.nome)
-                        Text(text = receiver.dataRecebimento.toString())
+//                        Text(text = receiver.dataRecebimento.toString())
                     }
                 }
                 Row(
