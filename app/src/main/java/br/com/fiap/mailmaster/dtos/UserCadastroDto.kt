@@ -2,7 +2,7 @@ package br.com.fiap.mailmaster.dtos
 
 class UserCadastroDto(
     val email: String,
-    val senha: String,
-    val senha1: String,
-    val nome: String
+    val password1: String,
+    val password2: String,
+    val name: String
 )

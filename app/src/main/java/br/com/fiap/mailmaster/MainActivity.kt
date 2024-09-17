@@ -38,15 +38,20 @@ class MainActivity : ComponentActivity() {
                     val writeViewModel: WriteViewModel = viewModel()
                     val readViewModel: ReadViewModel = viewModel()
 
+
+
+
                     NavHost(navController = navController, startDestination = "first") {
 
                         composable("first") {
                             LoginScreen(navController, viewModel)
                         }
 
+
                         composable("second") {
-                            BoxScreen(navController, viewModel,readViewModel)
+                            BoxScreen(navController, viewModel, readViewModel)
                         }
+
 
                         composable("third") {
                             CreateUserScreen(navController, viewModel)
@@ -57,7 +62,7 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable("fiftieth") {
-                            ReadScreen(navController, viewModel,readViewModel)
+                            ReadScreen(navController, viewModel)
                         }
                     }
                 }

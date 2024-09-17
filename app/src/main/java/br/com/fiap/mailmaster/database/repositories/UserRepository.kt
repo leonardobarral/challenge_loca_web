@@ -1,18 +1,16 @@
 package br.com.fiap.mailmaster.database.repositories
 
 import android.content.Context
-import android.util.Log
-import br.com.fiap.mailmaster.database.dao.MailDB
+import br.com.fiap.mailmaster.database.dao.SqliteDB
 import br.com.fiap.mailmaster.dtos.UserLoginDto
 import br.com.fiap.mailmaster.models.User
 
 class UserRepository(context: Context) {
 
-    private var db = MailDB.getDatabase(context).UserDao()
+    private var db = SqliteDB.getDatabase(context).UserDao()
 
-    fun insert(user: User): Long {
-        val idInsert = db.insert(user = user)
-        return idInsert
+    fun insert(user: User): Unit {
+        return db.insert(user = user)
     }
 
     fun update(user: User): Int {
@@ -23,15 +21,12 @@ class UserRepository(context: Context) {
         return db.delete(user = user)
     }
 
-    fun login(user: UserLoginDto): User? {
-        return db.login(senha = user.senha, email = user.email)
-    }
 
-    fun selectById(id: Long): User {
+    fun selectById(id: String): User {
         return db.selectById(id = id)
     }
 
-    fun selectByEmail(email: String): Long {
+    fun selectByEmail(email: String): String {
         return db.selectByEmail(email = email)
     }
 

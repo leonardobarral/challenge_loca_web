@@ -19,6 +19,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,7 +29,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import br.com.fiap.mailmaster.dtos.UserLoginDto
 import br.com.fiap.mailmaster.models.views.ViewModel
 import br.com.fiap.mailmaster.services.UserService
 
@@ -36,14 +37,15 @@ import br.com.fiap.mailmaster.services.UserService
 fun LoginScreen(navController: NavController, viewModel: ViewModel) {
 
 
-    val userEmail by viewModel.userEmail.observeAsState(initial = "")
-    val userSenha by viewModel.userSenha.observeAsState(initial = "")
+    val userEmail = remember { mutableStateOf("") }
+    val userSenha = remember { mutableStateOf("") }
 
     val context = LocalContext.current
     val userService = UserService(context)
 
     Surface(
         modifier = Modifier.fillMaxSize(),
+        color = Color(0xFFFFFFFF),
         shape = RoundedCornerShape(8.dp)
     ) {
         Column(
@@ -63,9 +65,9 @@ fun LoginScreen(navController: NavController, viewModel: ViewModel) {
             )
             Row {
                 OutlinedTextField(
-                    value = userEmail,
+                    value = userEmail.value,
                     onValueChange = {
-                        viewModel.updateUserEmail(it)
+                        userEmail.value = it
                     },
                     label = { Text("Email") },
                     modifier = Modifier.fillMaxWidth()
@@ -73,9 +75,9 @@ fun LoginScreen(navController: NavController, viewModel: ViewModel) {
             }
             Row {
                 OutlinedTextField(
-                    value = userSenha,
+                    value = userSenha.value,
                     onValueChange = {
-                        viewModel.updateUserSenha(it)
+                        userSenha.value = it
                     },
                     label = { Text("Senha") },
                     modifier = Modifier.fillMaxWidth()
@@ -104,18 +106,16 @@ fun LoginScreen(navController: NavController, viewModel: ViewModel) {
                 Spacer(modifier = Modifier.width(10.dp))
                 Button(
                     onClick = {
-                        userService.login(
-                            UserLoginDto(
-                                email = userEmail,
-                                senha = userSenha
-                            )
-                        )?.let {
-                            viewModel.updateUserEmail("")
-                            viewModel.updateUserSenha("")
-                            viewModel.updateLogedUser(
-                                it
-                            )
-                        }
+//                        userService.login(
+//                            UserLoginDto(
+//                                email = userEmail,
+//                                password = userSenha
+//                            )
+//                        )?.let {
+//                            viewModel.updateUserEmail("")
+//                            viewModel.updateUserSenha("")
+                        viewModel.updateLogedUser()
+//                        }
                         navController.navigate("second")
                     },
                     modifier = Modifier

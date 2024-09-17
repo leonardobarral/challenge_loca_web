@@ -19,6 +19,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,19 +36,20 @@ import br.com.fiap.mailmaster.services.UserService
 
 
 @Composable
-fun CreateUserScreen(navController: NavController, viewModel: ViewModel) {
+fun CreateUserScreen(navController: NavController,viewModel: ViewModel) {
 
 
-    val userEmail by viewModel.userEmail.observeAsState(initial = "")
-    val userSenha by viewModel.userSenha.observeAsState(initial = "")
-    val userSenha1 by viewModel.userSenha1.observeAsState(initial = "")
-    val userNome by viewModel.userNome.observeAsState(initial = "")
+    val userEmail = remember { mutableStateOf("") }
+    val userSenha = remember { mutableStateOf("") }
+    val userSenha1 = remember { mutableStateOf("") }
+    val userNome = remember { mutableStateOf("") }
 
     val context = LocalContext.current
     val userService = UserService(context)
 
     Surface(
         modifier = Modifier.fillMaxSize(),
+        color = Color(0xFFFFFFFF),
         shape = RoundedCornerShape(8.dp)
     ) {
         Column(
@@ -65,17 +69,18 @@ fun CreateUserScreen(navController: NavController, viewModel: ViewModel) {
             )
 
             OutlinedTextField(
-                value = userEmail,
+                value = userEmail.value,
                 onValueChange = {
-                    viewModel.updateUserEmail(it)
+                    userEmail.value = it
                 }, label = { Text(text = "Email") },
                 modifier = Modifier.fillMaxWidth()
             )
 
 
             OutlinedTextField(
-                value = userNome, onValueChange = {
-                    viewModel.updateUserNome(it)
+                value = userNome.value,
+                onValueChange = {
+                    userNome.value = it
                 },
                 label = { Text(text = "Nome") },
                 modifier = Modifier.fillMaxWidth()
@@ -83,8 +88,9 @@ fun CreateUserScreen(navController: NavController, viewModel: ViewModel) {
 
 
             OutlinedTextField(
-                value = userSenha, onValueChange = {
-                    viewModel.updateUserSenha(it)
+                value = userSenha.value,
+                onValueChange = {
+                    userSenha.value = it
                 },
                 label = { Text(text = "Senha") },
                 modifier = Modifier.fillMaxWidth()
@@ -93,8 +99,9 @@ fun CreateUserScreen(navController: NavController, viewModel: ViewModel) {
 
 
             OutlinedTextField(
-                value = userSenha1, onValueChange = {
-                    viewModel.updateUserSenha1(it)
+                value = userSenha1.value,
+                onValueChange = {
+                    userSenha1.value =it
                 },
                 label = { Text(text = "Confirmar Senha") },
                 modifier = Modifier.fillMaxWidth()
@@ -118,19 +125,19 @@ fun CreateUserScreen(navController: NavController, viewModel: ViewModel) {
                 Spacer(modifier = Modifier.width(10.dp))
                 Button(
                     onClick = {
-                        userService.insert(
-                            UserCadastroDto(
-                                email = userEmail,
-                                senha = userSenha,
-                                senha1 = userSenha1,
-                                nome = userNome
-                            )
-                        )
+//                        userService.insert(
+//                            UserCadastroDto(
+//                                email = userEmail,
+//                                password1 = userSenha,
+//                                password2 = userSenha1,
+//                                name = userNome
+//                            )
+//                        )
 
-                        viewModel.updateUserEmail("")
-                        viewModel.updateUserSenha("")
-                        viewModel.updateUserSenha1("")
-                        viewModel.updateUserNome("")
+                        userEmail.value = ""
+                        userSenha.value = ""
+                        userSenha1.value = ""
+                        userNome.value = ""
 
                         navController.navigate("first")
                     },

@@ -4,19 +4,19 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import br.com.fiap.mailmaster.dtos.UserCadastroDto
-import br.com.fiap.mailmaster.dtos.UserExibitionDto
 import br.com.fiap.mailmaster.dtos.UserLoginDto
-import br.com.fiap.mailmaster.models.Email
+import br.com.fiap.mailmaster.models.Message
+import br.com.fiap.mailmaster.models.User
 import br.com.fiap.mailmaster.models.enums.BoxFolderEnum
 
 class ViewModel : ViewModel() {
 
     //listEmail
-    private val _listEmail = MutableLiveData<List<Email>>()
-    val listEmail: LiveData<List<Email>> = _listEmail
+    private val _listMessage = MutableLiveData<List<Message>>()
+    val listMessage: LiveData<List<Message>> = _listMessage
 
-    fun updateListEmail(novoValor: List<Email>) {
-        _listEmail.value = novoValor
+    fun updateListEmail(novoValor: List<Message>) {
+        _listMessage.value = novoValor
     }
 
 
@@ -30,11 +30,18 @@ class ViewModel : ViewModel() {
 
 
     //userLoged
-    private val _userLoged = MutableLiveData<UserExibitionDto>()
-    val userLoged: LiveData<UserExibitionDto> = _userLoged
+    private val _userLoged = MutableLiveData<User>()
+    val userLoged: LiveData<User> = _userLoged
 
-    fun updateLogedUser(novoValor: UserExibitionDto) {
-        _userLoged.value = novoValor
+    //    fun updateLogedUser(novoValor: UserExibitionDto) {
+//        _userLoged.value = novoValor
+//    }
+    fun updateLogedUser() {
+        _userLoged.value = User(
+            id = "3ae32c41-a1c8-49fb-a838-14c3a849857c",
+            name = "Leonardo",
+            email = "leo@gmail.com"
+        )
     }
 
 
@@ -45,7 +52,7 @@ class ViewModel : ViewModel() {
     fun updateUserLoginDto(novoValorEmail: String, novoValorSenha: String) {
         _userLoginDto.value = UserLoginDto(
             email = novoValorEmail,
-            senha = novoValorSenha
+            password = novoValorSenha
         )
     }
 
@@ -54,16 +61,16 @@ class ViewModel : ViewModel() {
     val userCadastroDto: LiveData<UserCadastroDto> = _userCadastroDto
 
     fun updateUserCadastroDto(
-            novoValorEmail: String,
-            novoValorNome:String,
-            novoValorSenha: String,
-            novoValorSenha1:String,
-        ) {
+        novoValorEmail: String,
+        novoValorNome: String,
+        novoValorSenha: String,
+        novoValorSenha1: String,
+    ) {
         _userCadastroDto.value = UserCadastroDto(
             email = novoValorEmail,
-            nome = novoValorNome,
-            senha = novoValorSenha,
-            senha1 = novoValorSenha1,
+            name = novoValorNome,
+            password1 = novoValorSenha,
+            password2 = novoValorSenha1,
         )
     }
 
@@ -105,7 +112,6 @@ class ViewModel : ViewModel() {
 
     //write
     //EmailCriacaoDto
-
 
 
 }

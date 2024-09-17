@@ -1,7 +1,6 @@
 package br.com.fiap.mailmaster.services
 
 import android.content.Context
-import android.util.Log
 import br.com.fiap.mailmaster.database.repositories.UserRepository
 import br.com.fiap.mailmaster.dtos.UserCadastroDto
 import br.com.fiap.mailmaster.dtos.UserExibitionDto
@@ -12,32 +11,25 @@ class UserService(context: Context) {
 
     private val userRepository = UserRepository(context)
 
-    fun insert(user: UserCadastroDto):Long {
-        Log.d("LEO - SERVICE - INSERT", user.toString())
-        val emailId = userRepository.selectByEmail(user.email)
-
-        if(user.senha == user.senha1){
-            val idInsert = userRepository.insert(user = User(
+    fun insert(user: User): String {
+        val user_check = userRepository.selectByEmail(user.email)
+        return if (user_check.isNullOrEmpty()) {
+            val newUser = User(
+                id = user.id,
                 email = user.email,
-                nome = user.nome,
-                senha = user.senha
-            ))
-
-            return idInsert
-        }else{
-            return 0L
+                name = user.name,
+            )
+            userRepository.insert(newUser)
+            userRepository.selectById(newUser.id).id
+        } else {
+            ""
         }
-
     }
 
-    fun login(user: UserLoginDto): UserExibitionDto? {
-        val user = userRepository.login(user = user)
-        return user?.let { UserExibitionDto(it) }
-    }
 
-    fun selecteById(id: Long): UserExibitionDto? {
+    fun selecteById(id: String): UserExibitionDto {
         val user = userRepository.selectById(id = id)
-        return user?.let { UserExibitionDto(it) }
+        return UserExibitionDto(user)
     }
 }
 

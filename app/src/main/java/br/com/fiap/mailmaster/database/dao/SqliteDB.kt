@@ -4,32 +4,30 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import br.com.fiap.mailmaster.models.Email
-import br.com.fiap.mailmaster.models.EmailReceiverUser
+import br.com.fiap.mailmaster.models.Message
 import br.com.fiap.mailmaster.models.User
 
 @Database(
     entities = [
         User::class,
-        Email::class,
-        EmailReceiverUser::class
+        Message::class
     ],
     version = 1
 )
-abstract class MailDB: RoomDatabase(){
+abstract class SqliteDB : RoomDatabase() {
     abstract fun UserDao(): UserDao
-    abstract fun EmailDao(): EmailDao
-    abstract fun EmailReceiverUserDao(): EmailReceiverUserDao
+    abstract fun MessageDao(): MessageDao
 
-    companion object{
-        private lateinit var instance:MailDB
 
-        fun getDatabase(context: Context):MailDB{
-            if(!::instance.isInitialized){
+    companion object {
+        private lateinit var instance: SqliteDB
+
+        fun getDatabase(context: Context): SqliteDB {
+            if (!::instance.isInitialized) {
                 instance = Room.databaseBuilder(
                     context,
-                    MailDB::class.java,
-                    "mail_db"
+                    SqliteDB::class.java,
+                    "db"
                 )
                     .allowMainThreadQueries()
                     .fallbackToDestructiveMigration()

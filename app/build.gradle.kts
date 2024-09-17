@@ -83,5 +83,6 @@ dependencies {
     annotationProcessor("com.google.dagger:dagger-compiler:2.51.1")
     ksp("com.google.dagger:dagger-compiler:2.51.1")
 
+    implementation("com.google.accompanist:accompanist-flowlayout:0.24.13-rc")
 
 }

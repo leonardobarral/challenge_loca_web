@@ -5,7 +5,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 class DateConverter {
-    private val formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+    private val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
     @TypeConverter
     fun fromLocalDate(date: LocalDate?): String? {
