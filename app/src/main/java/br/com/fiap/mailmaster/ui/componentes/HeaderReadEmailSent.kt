@@ -20,9 +20,9 @@ import br.com.fiap.MailMaster.R
 
 @Composable
 
-fun HeaderNewEmail(
+fun HeaderReadEmailSent(
     onClickShowFolders: () -> Unit,
-    onClickSend:() -> Unit,
+    onclickUpdateDelete: () -> Unit,
     pag: String
 ) {
     //cabecalho
@@ -35,13 +35,13 @@ fun HeaderNewEmail(
     ) {
         Column {
             IconButton(
-                onClick = { onClickShowFolders()},
+                onClick = { onClickShowFolders() },
                 modifier = Modifier.size(50.dp)
             )
             {
                 Icon(
                     painter = painterResource(id = R.drawable.baseline_menu_24),
-                    contentDescription = "Toggle Folders",
+                    contentDescription = "ShowBar button",
                     tint = Color.DarkGray
                 )
             }
@@ -51,32 +51,15 @@ fun HeaderNewEmail(
         Column {
             Row {
 
-
-                IconButton(
-                    onClick = {},
-                    modifier = Modifier.size(50.dp)
-
-                ) {
-
-                    Icon(
-                        painter = painterResource(id = R.drawable.baseline_attach_file_24),
-                        contentDescription = "Send anexo",
-                        tint = Color.DarkGray,
-                    )
-
-                }
                 Spacer(modifier = Modifier.width(5.dp))
                 IconButton(
-                    onClick = {
-                        onClickSend()
-                    },
+                    onClick = {onclickUpdateDelete()},
                     modifier = Modifier.size(50.dp)
 
                 ) {
-
                     Icon(
-                        painter = painterResource(id = R.drawable.baseline_send_24),
-                        contentDescription = "Send Button",
+                        painter = painterResource(id = R.drawable.baseline_delete_24),
+                        contentDescription = "Send anexo",
                         tint = Color.DarkGray,
                     )
                 }

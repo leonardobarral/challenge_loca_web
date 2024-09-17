@@ -1,19 +1,21 @@
 package br.com.fiap.mailmaster.ui.screens
 
-import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
@@ -29,47 +31,241 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import br.com.fiap.MailMaster.R
-import br.com.fiap.mailmaster.models.Message
-import br.com.fiap.mailmaster.models.views.ReadViewModel
+import br.com.fiap.mailmaster.models.enums.BoxFolderEnum
 import br.com.fiap.mailmaster.models.views.ViewModel
 import br.com.fiap.mailmaster.services.MessageService
 import br.com.fiap.mailmaster.ui.componentes.BoxShowBar
-import br.com.fiap.mailmaster.ui.componentes.HeaderNewEmail
-import br.com.fiap.mailmaster.ui.componentes.HeaderReadEmail
+import br.com.fiap.mailmaster.ui.componentes.HeaderReadEmailBox
+import br.com.fiap.mailmaster.ui.componentes.HeaderReadEmailSent
 
 @Composable
 fun ReadScreen(
     navController: NavHostController,
     viewModel: ViewModel,
-//    readViewModel: ReadViewModel,
-//    message: Messag
+    id: String
 ) {
     val context = LocalContext.current
-//    val email by readViewModel.messageRead.observeAsState()
+    val messageService = MessageService(context)
+    val message by remember { mutableStateOf(messageService.findById(id = id)) }
     val userLoged by viewModel.userLoged.observeAsState()
     var showFolders by remember { mutableStateOf(false) }
-    val messageService = MessageService(context)
+    var showCcCco by remember { mutableStateOf(false) }
     val page by remember { mutableStateOf("Leitura") }
 
-//    userLoged?.let { email?.let { it1 -> messageService.updateStatus(it1.id, it.id) } }
-
-    Surface (
+    Surface(
         modifier = Modifier.fillMaxSize(),
         color = Color(0xFFFFFFFF),
         shape = RoundedCornerShape(8.dp)
-    ){
-        Box(){
-            Box(){
-                HeaderReadEmail(
-                    onClickShowFolders = {
-                        showFolders = !showFolders
-                    },
-                    page
-                )
+    ) {
+        Box() {
+            Box() {
+                Column(
+                    modifier = Modifier.fillMaxWidth().padding(10.dp)
+                ) {
+                    if (message.type == "DE") {
+                        HeaderReadEmailSent(
+                            onClickShowFolders = {
+                                showFolders = !showFolders
+                            },
+                            onclickUpdateDelete = {},
+                            page
+                        )
+                    } else {
+                        HeaderReadEmailBox(
+                            onClickShowFolders = {
+                                showFolders = !showFolders
+                            },
+                            onClickUpdateDelete = {},
+                            onClickUpdateStatus = {
+                                message.statusLeitura = false
+                                messageService.update(message)
+                                navController.navigate("second")
+                                viewModel.updateBoxFolder(BoxFolderEnum.BOX)
+                            },
+                            page
+                        )
+                    }
+                    Column(
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth().height(25.dp)
+                        ) {
+                            Text(
+                                text = message.assunto,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                                style = TextStyle(
+                                    fontSize = 20.sp,
+                                    color = Color.Black
+                                ),
+                                fontWeight = FontWeight.ExtraBold
+                            )
+
+                        }
+
+                        Spacer(modifier = Modifier.height(20.dp))
+
+                        Row(
+                            modifier = Modifier.fillMaxWidth().height(20.dp),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = message.nomeRemetente,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                                style = TextStyle(
+                                    fontSize = 16.sp,
+                                    color = Color.DarkGray
+                                ),
+                                fontWeight = FontWeight.Bold
+                            )
+                            Text(
+                                text = message.dataEnvio.toString(),
+                                maxLines = 1,
+                                style = TextStyle(
+                                    fontSize = 14.sp,
+                                    color = Color.DarkGray
+                                ),
+                                fontWeight = FontWeight.Normal
+                            )
+
+                        }
+
+                        Spacer(modifier = Modifier.height(3.dp))
+
+                        Row(
+                            modifier = Modifier.fillMaxWidth().height(16.dp),
+                            horizontalArrangement = Arrangement.Start,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = "Para: " + message.para,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                                style = TextStyle(
+                                    fontSize = 12.sp,
+                                    color = Color.DarkGray
+                                ),
+                                fontWeight = FontWeight.Normal
+                            )
+
+                            if ((message.cc.isNotBlank() || message.cc.isNotBlank()) && !showCcCco) {
+                                IconButton(
+                                    onClick = {
+                                        showCcCco = !showCcCco
+                                    },
+                                    modifier = Modifier
+                                        .size(50.dp)
+                                ) {
+
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.baseline_keyboard_arrow_down_24),
+                                        contentDescription = "Toggle Folders",
+                                        tint = Color.Black,
+                                        modifier = Modifier.size(35.dp)
+                                    )
+                                }
+                            }
+                            if (showCcCco) {
+                                IconButton(
+                                    onClick = {
+                                        showCcCco = !showCcCco
+                                    },
+                                    modifier = Modifier
+                                        .size(50.dp)
+                                ) {
+
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.baseline_keyboard_arrow_up_24),
+                                        contentDescription = "Toggle Folders",
+                                        tint = Color.Black,
+                                        modifier = Modifier.size(35.dp)
+                                    )
+                                }
+                            }
+                        }
+
+                        
+                        if (showCcCco) {
+                            if(message.cc.isNotBlank()) {
+                                Spacer(modifier = Modifier.height(3.dp))
+
+                                Row(
+                                    modifier = Modifier.fillMaxWidth().height(16.dp),
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Text(
+                                        text = "Cc: " + message.cc,
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis,
+                                        style = TextStyle(
+                                            fontSize = 12.sp,
+                                            color = Color.DarkGray
+                                        ),
+                                        fontWeight = FontWeight.Normal
+                                    )
+                                }
+                            }
+                            if(message.cco.isNotBlank()) {
+
+                                Spacer(modifier = Modifier.height(3.dp))
+
+                                Row(
+                                    modifier = Modifier.fillMaxWidth().height(16.dp),
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Text(
+                                        text = "Cco: " + message.cco,
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis,
+                                        style = TextStyle(
+                                            fontSize = 12.sp,
+                                            color = Color.DarkGray
+                                        ),
+                                        fontWeight = FontWeight.Normal
+                                    )
+                                }
+                            }
+                        }
+
+                        Spacer(modifier = Modifier.height(15.dp))
+
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .fillMaxHeight()
+                                .verticalScroll(
+                                    state = ScrollState(0)
+                                ),
+                            verticalAlignment = Alignment.Top,
+
+                        ) {
+                            Text(
+                                text = message.body,
+                                style = TextStyle(
+                                    fontSize = 14.sp,
+                                    color = Color.DarkGray
+                                ),
+                                fontWeight = FontWeight.Normal
+                            )
+                        }
+
+                    }
+                }
             }
+
+
             //showbar
             if (showFolders) {
                 BoxShowBar(
@@ -107,7 +303,7 @@ fun ReadScreen(
                     ) {
                         IconButton(
                             onClick = {
-                                navController.navigate("fourth")
+                                navController.navigate("fourth/${message.id}/RESPONSETO")
                             },
                             modifier = Modifier
                                 .width(100.dp)
@@ -129,7 +325,7 @@ fun ReadScreen(
                         Spacer(modifier = Modifier.width(4.dp))
                         IconButton(
                             onClick = {
-                                navController.navigate("fourth")
+                                navController.navigate("fourth/${message.id}/RESPONSETOALL")
                             },
                             modifier = Modifier
                                 .width(100.dp)
@@ -151,7 +347,7 @@ fun ReadScreen(
                         Spacer(modifier = Modifier.width(4.dp))
                         IconButton(
                             onClick = {
-                                navController.navigate("fourth")
+                                navController.navigate("fourth/${message.id}/REDIRECTO")
                             },
                             modifier = Modifier
                                 .width(100.dp)

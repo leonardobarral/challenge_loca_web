@@ -57,12 +57,16 @@ class MainActivity : ComponentActivity() {
                             CreateUserScreen(navController, viewModel)
                         }
 
-                        composable("fourth") {
-                            WriteScreen(navController, viewModel, writeViewModel)
+                        composable("fourth/{id}/{typeoperation}") {backStackEntry ->
+                            val id = backStackEntry.arguments?.getString("id")?:"0"
+                            val typeoperation = backStackEntry.arguments?.getString("typeoperation")?:""
+
+                            WriteScreen(navController, viewModel, writeViewModel, id = id,typeoperation = typeoperation)
                         }
 
-                        composable("fiftieth") {
-                            ReadScreen(navController, viewModel)
+                        composable("fiftieth/{id}") {backStackEntry ->
+                            val id = backStackEntry.arguments?.getString("id")
+                            if (id != null) ReadScreen(navController, viewModel, id = id)
                         }
                     }
                 }

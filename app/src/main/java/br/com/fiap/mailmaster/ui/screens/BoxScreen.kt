@@ -52,7 +52,6 @@ fun BoxScreen(
     val messageService = MessageService(context)
 
     val userLoged by viewModel.userLoged.observeAsState()
-//    val boxFolder by viewModel.boxFolder.observeAsState(initial = BoxFolderEnum.fromName(boxFolderEnum)!!)
     val boxFolder by viewModel.boxFolder.observeAsState(initial = BoxFolderEnum.BOX)
     val listMessage by viewModel.listMessage.observeAsState(
         initial = messageService.findByBoxFolder(
@@ -103,7 +102,17 @@ fun BoxScreen(
                                             ItemLinhaComponenteSent(message = message,
                                                 user = it,
                                                 onClick = {
-                                                    navController.navigate("fiftieth")
+
+
+                                                    if(message.boxFolder == "DRAFT") {
+                                                        navController.navigate("fourth/${message.id}/DRAFT")
+                                                    }else{
+                                                        if(!message.statusLeitura) {
+                                                            message.statusLeitura = true
+                                                            messageService.update(message)
+                                                        }
+                                                        navController.navigate("fiftieth/" + message.id)
+                                                    }
                                                 })
                                             Spacer(modifier = Modifier.height(5.dp))
                                         }
@@ -141,7 +150,7 @@ fun BoxScreen(
                 ) {
                     IconButton(
                         onClick = {
-                            navController.navigate("fourth")
+                            navController.navigate("fourth/0/WRITE")
                         },
                         modifier = Modifier
                             .width(100.dp)

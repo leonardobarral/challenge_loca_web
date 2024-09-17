@@ -7,4 +7,9 @@ enum class PriorityEnum(private val description: String) {
     fun getDescription(): String {
         return description
     }
+    companion object {
+        fun fromName(name: String): PriorityEnum? {
+            return PriorityEnum.values().find { it.name == name }
+        }
+    }
 }

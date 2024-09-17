@@ -20,8 +20,10 @@ import br.com.fiap.MailMaster.R
 
 @Composable
 
-fun HeaderReadEmail(
+fun HeaderReadEmailBox(
     onClickShowFolders: () -> Unit,
+    onClickUpdateDelete: () -> Unit,
+    onClickUpdateStatus: () -> Unit,
     pag: String
 ) {
     //cabecalho
@@ -52,7 +54,7 @@ fun HeaderReadEmail(
 
 
                 IconButton(
-                    onClick = {},
+                    onClick = {onClickUpdateDelete()},
                     modifier = Modifier.size(50.dp)
 
                 ) {
@@ -66,27 +68,7 @@ fun HeaderReadEmail(
                 }
                 Spacer(modifier = Modifier.width(5.dp))
                 IconButton(
-                    onClick = {
-//                            userLoged?.let {
-//                                writeViewModel.appendParaEmailList(paraEmail.value)
-//                                writeViewModel.appendCcEmailList(ccEmail.value)
-//                                writeViewModel.appendCcoEmailList(ccoEmail.value)
-//                            MessageRecipientCriationDto(
-//                                assunto = assunto,
-//                                idUser = it.id,
-//                                body = body,
-//                                dataEnvio = LocalDate.now(),
-//                                destinatarios = paraEmailList,
-//                                ccs = ccEmailList,
-//                                ccos = ccoEmailList
-//                            )
-//                        }?.let {
-//                            messageService.insert(
-//                                it
-//                            )
-
-//                navController.navigate("second")
-                    },
+                    onClick = {onClickUpdateStatus()},
                     modifier = Modifier.size(50.dp)
 
                 ) {

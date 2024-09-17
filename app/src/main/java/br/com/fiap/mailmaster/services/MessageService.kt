@@ -16,10 +16,13 @@ class MessageService(context: Context) {
         return messageRepository.findByBoxFolder(idUser = idUser , box_folder = box_folder)
     }
 
+    fun findById(id: String): Message {
+        return messageRepository.findById(id = id)
+    }
 
-//    fun updateStatus(id_message: String, id_user: String): Int {
-//        return messageRepository.updateStatus(id_message = id_message, id_user = id_user)
-//    }
+    fun update(message: Message): Int {
+        return messageRepository.update(message = message)
+    }
 
 //    fun updateBox(id_message: String, id_user: String, box_folder: String): Int {
 //        return recipientRepository.updateBox(

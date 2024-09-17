@@ -16,45 +16,50 @@ import java.util.UUID
 class Message(
 
     @PrimaryKey
-    val id: String,
+    var id: String,
 
-    val idUser: String,
+    var idUser: String,
 
     @ColumnInfo(name = "email_remetente")
-    val emailRemente: String,
+    var emailRemente: String,
 
     @ColumnInfo(name = "nome_remetente")
-    val nomeRemetente: String,
+    var nomeRemetente: String,
 
-    val assunto: String,
+    var assunto: String,
 
-    val body: String,
+    var body: String,
 
     @ColumnInfo(name = "data_envio")
-    val dataEnvio: LocalDate = LocalDate.now(),
+    var dataEnvio: LocalDate = LocalDate.now(),
 
-    val prioridade: String = PriorityEnum.NORMAL.toString(),
+    var prioridade: String = PriorityEnum.NORMAL.toString(),
 
     @ColumnInfo(name = "id_message_response")
-    val idMessageResponse: String = "",
+    var idMessageResponse: String = "",
 
-    val type: String = ReceiverTypeEnum.DE.toString(),
+    var type: String = ReceiverTypeEnum.DE.toString(),
 
     @ColumnInfo(name = "data_recebimento")
-    val dataRecebimento: LocalDate?,
+    var dataRecebimento: LocalDate?,
 
     @ColumnInfo(name = "status_leitura")
-    val statusLeitura: Boolean = false,
+    var statusLeitura: Boolean = false,
 
     @ColumnInfo(name = "box_folder")
-    val boxFolder: String = BoxFolderEnum.SENT.toString(),
+    var boxFolder: String = BoxFolderEnum.SENT.toString(),
 
-    val para : String = "",
+    var para : String = "",
 
-    val cc : String = "",
+    var cc : String = "",
 
-    val cco : String = "",
+    var cco : String = "",
 
-    val updated_at: LocalDate?
+    var updated_at: LocalDate?
 ) {
+
+    override fun toString(): String {
+        return "Message(id='$id', idUser='$idUser', emailRemente='$emailRemente', nomeRemetente='$nomeRemetente', assunto='$assunto', body='$body', dataEnvio=$dataEnvio, prioridade='$prioridade', idMessageResponse='$idMessageResponse', type='$type', dataRecebimento=$dataRecebimento, statusLeitura=$statusLeitura, boxFolder='$boxFolder', para='$para', cc='$cc', cco='$cco', updated_at=$updated_at)"
+    }
+
 }
