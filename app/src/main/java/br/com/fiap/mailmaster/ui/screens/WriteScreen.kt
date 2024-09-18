@@ -46,7 +46,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.com.fiap.MailMaster.R
 import br.com.fiap.mailmaster.models.Message
-import br.com.fiap.mailmaster.models.checks.EmailChecking
+import br.com.fiap.mailmaster.models.checks.InputChecking
 import br.com.fiap.mailmaster.models.enums.BoxFolderEnum
 import br.com.fiap.mailmaster.models.enums.PriorityEnum
 import br.com.fiap.mailmaster.models.views.ViewModel
@@ -160,7 +160,7 @@ fun WriteScreen(
     }
 
 
-    val validator = EmailChecking()
+    val validator = InputChecking()
 
     fun saveMessage(box: String) {
 

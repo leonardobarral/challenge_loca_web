@@ -12,7 +12,7 @@ import br.com.fiap.mailmaster.models.User
         User::class,
         Message::class
     ],
-    version = 1
+    version = 2
 )
 abstract class SqliteDB : RoomDatabase() {
     abstract fun UserDao(): UserDao

@@ -4,14 +4,13 @@ import android.content.Context
 import br.com.fiap.mailmaster.database.repositories.UserRepository
 import br.com.fiap.mailmaster.dtos.UserCadastroDto
 import br.com.fiap.mailmaster.dtos.UserExibitionDto
-import br.com.fiap.mailmaster.dtos.UserLoginDto
 import br.com.fiap.mailmaster.models.User
 
 class UserService(context: Context) {
 
     private val userRepository = UserRepository(context)
 
-    fun insert(user: User): String {
+    fun insert(user: UserCadastroDto): String {
         val user_check = userRepository.selectByEmail(user.email)
         return if (user_check.isNullOrEmpty()) {
             val newUser = User(

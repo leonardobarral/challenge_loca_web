@@ -1,5 +1,6 @@
 package br.com.fiap.mailmaster.ui.screens
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,16 +13,12 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,18 +28,23 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import br.com.fiap.mailmaster.dtos.UserCadastroDto
+import br.com.fiap.mailmaster.models.checks.InputChecking
 import br.com.fiap.mailmaster.models.views.ViewModel
 import br.com.fiap.mailmaster.services.UserService
 
 
 @Composable
-fun CreateUserScreen(navController: NavController,viewModel: ViewModel) {
+fun CreateUserScreen(navController: NavController, viewModel: ViewModel) {
 
-
+    val validator = InputChecking()
     val userEmail = remember { mutableStateOf("") }
     val userSenha = remember { mutableStateOf("") }
     val userSenha1 = remember { mutableStateOf("") }
     val userNome = remember { mutableStateOf("") }
+    val alertpassword = remember { mutableStateOf(false) }
+    val alertpasswordDistict = remember { mutableStateOf(false) }
+    val alertEmail = remember { mutableStateOf(false) }
+
 
     val context = LocalContext.current
     val userService = UserService(context)
@@ -59,6 +61,55 @@ fun CreateUserScreen(navController: NavController,viewModel: ViewModel) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
+            if(alertpassword.value ||  alertEmail.value || alertpasswordDistict.value) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(color = Color.LightGray)
+                        .padding(8.dp)
+                ) {
+                    Column (
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ){
+
+
+                        if (alertEmail.value) {
+                            Text(
+                                text = "E-mail inválido!",
+                                style = TextStyle(
+                                    fontSize = 14.sp
+                                ),
+                                color = Color.Red
+
+                            )
+                            Spacer(modifier = Modifier.height(5.dp))
+                        }
+
+                        if (alertpassword.value) {
+                            Text(
+                                text = "Senha inválida!",
+                                style = TextStyle(
+                                    fontSize = 14.sp
+                                ),
+                                color = Color.Red
+                            )
+                            Spacer(modifier = Modifier.height(5.dp))
+                        }
+                        if (alertpasswordDistict.value) {
+                            Text(
+                                text = "As senhas informadas não são iguais!",
+                                style = TextStyle(
+                                    fontSize = 14.sp
+                                ),
+                                color = Color.Red
+                            )
+                            Spacer(modifier = Modifier.height(5.dp))
+                        }
+                    }
+                }
+            }
             Text(
                 text = "Cadastro",
                 style = TextStyle(
@@ -72,6 +123,7 @@ fun CreateUserScreen(navController: NavController,viewModel: ViewModel) {
                 value = userEmail.value,
                 onValueChange = {
                     userEmail.value = it
+                    alertEmail.value = false
                 }, label = { Text(text = "Email") },
                 modifier = Modifier.fillMaxWidth()
             )
@@ -91,6 +143,8 @@ fun CreateUserScreen(navController: NavController,viewModel: ViewModel) {
                 value = userSenha.value,
                 onValueChange = {
                     userSenha.value = it
+                    alertpassword.value = false
+                    alertpasswordDistict.value = false
                 },
                 label = { Text(text = "Senha") },
                 modifier = Modifier.fillMaxWidth()
@@ -101,7 +155,9 @@ fun CreateUserScreen(navController: NavController,viewModel: ViewModel) {
             OutlinedTextField(
                 value = userSenha1.value,
                 onValueChange = {
-                    userSenha1.value =it
+                    userSenha1.value = it
+                    alertpassword.value = false
+                    alertpasswordDistict.value = false
                 },
                 label = { Text(text = "Confirmar Senha") },
                 modifier = Modifier.fillMaxWidth()
@@ -125,27 +181,35 @@ fun CreateUserScreen(navController: NavController,viewModel: ViewModel) {
                 Spacer(modifier = Modifier.width(10.dp))
                 Button(
                     onClick = {
-//                        userService.insert(
-//                            UserCadastroDto(
-//                                email = userEmail,
-//                                password1 = userSenha,
-//                                password2 = userSenha1,
-//                                name = userNome
-//                            )
-//                        )
 
-                        userEmail.value = ""
-                        userSenha.value = ""
-                        userSenha1.value = ""
-                        userNome.value = ""
+                        if(validator.isValidPassWord(userSenha.value)) alertpassword.value = false else alertpassword.value = true
+                        if(validator.isValidEmail(userEmail.value)) alertEmail.value = false else alertEmail.value = true
+                        if( userSenha.value == userSenha1.value) alertpasswordDistict.value = false else alertpasswordDistict.value = true
 
-                        navController.navigate("first")
+
+                        if(!alertpassword.value &&  !alertEmail.value && !alertpasswordDistict.value){
+
+                            userService.insert(
+                                UserCadastroDto(
+                                    email = userEmail.value,
+                                    password1 = userSenha.value,
+                                    password2 = userSenha1.value,
+                                    name = userNome.value
+                                )
+                            )
+                            navController.navigate("first")
+                        }else{
+//                            userSenha.value = ""
+//                            userSenha1.value = ""
+                        }
+
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF00796B)),
                     modifier = Modifier
                         .weight(1f)
                         .height(50.dp),
-                    shape = RoundedCornerShape(8.dp)) {
+                    shape = RoundedCornerShape(8.dp)
+                ) {
                     Text(text = "Criar", color = Color.White)
                 }
             }

@@ -65,7 +65,7 @@ fun HeaderNewEmail(
 
                 }
                 Spacer(modifier = Modifier.width(5.dp))
-                
+
                 IconButton(
                     onClick = {
                         onClickSend()
