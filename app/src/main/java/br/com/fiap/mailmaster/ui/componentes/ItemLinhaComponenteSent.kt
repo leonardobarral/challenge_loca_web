@@ -1,6 +1,7 @@
 package br.com.fiap.mailmaster.ui.componentes
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -8,39 +9,85 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import br.com.fiap.MailMaster.R
 import br.com.fiap.mailmaster.models.Message
-import br.com.fiap.mailmaster.models.User
 
 
 @Composable
 fun ItemLinhaComponenteSent(
     message: Message,
-    user: User,
-    onClick: (Message) -> Unit
+    onClick: (Message) -> Unit,
+    filterSelected: (Boolean) -> Unit,
+    anyFilter: Boolean
 ) {
+    var filtered = remember { mutableStateOf(false) }
     //Image(painter = , contentDescription = )
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onClick(message) },
+            .clickable { onClick(message) }
+            .pointerInput(Unit) {
+                detectTapGestures(
+                    onLongPress = {
+                        filterSelected(!filtered.value)
+                        filtered.value = true
+                    }
+                )
+            },
         shape = RoundedCornerShape(6.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFFF5F5F5))
-    )
-    {
+        colors = CardDefaults.cardColors(containerColor = Color(0xFFF5F5F5)),
 
+        )
+    {
+        if (filtered.value || anyFilter) {
+            Column {
+                if (filtered.value) {
+                    IconButton(
+                        onClick = {},
+                        modifier = Modifier.size(50.dp)
+                    )
+                    {
+                        Icon(
+                            painter = painterResource(id = R.drawable.baseline_check_box_24),
+                            contentDescription = "Toggle Folders",
+                            tint = Color.DarkGray
+                        )
+                    }
+                }else{
+                    IconButton(
+                        onClick = {},
+                        modifier = Modifier.size(50.dp)
+                    )
+                    {
+                        Icon(
+                            painter = painterResource(id = R.drawable.baseline_check_box_outline_blank_24),
+                            contentDescription = "Toggle Folders",
+                            tint = Color.DarkGray
+                        )
+                    }
+                }
+            }
+        }
         Column(
             modifier = Modifier
                 .fillMaxWidth()

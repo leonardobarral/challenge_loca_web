@@ -1,12 +1,14 @@
 package br.com.fiap.mailmaster.ui.componentes
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -24,7 +26,9 @@ import br.com.fiap.mailmaster.models.enums.BoxFolderEnum
 
 fun Header(
     onClickShowFolders: () -> Unit,
-    pag: String
+    pag: String,
+    onClickUpdateDelete: ()-> Unit,
+    filter : Boolean
     ){
     //cabecalho
     Row(
@@ -34,25 +38,44 @@ fun Header(
     horizontalArrangement = Arrangement.SpaceBetween,
     verticalAlignment = Alignment.CenterVertically
     ) {
+        Column {
+            IconButton(
+                onClick = { onClickShowFolders() },
+                modifier = Modifier.size(50.dp)
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.baseline_menu_24),
+                    contentDescription = "Toggle Folders",
+                    tint = Color.DarkGray
+                )
+            }
 
-        IconButton(
-            onClick = {onClickShowFolders()},
-            modifier = Modifier.size(50.dp)
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.baseline_menu_24),
-                contentDescription = "Toggle Folders",
-                tint = Color.DarkGray
-            )
+
+        }
+        Column {
+
+            if(filter) {
+                Spacer(modifier = Modifier.width(5.dp))
+                IconButton(
+                    onClick = { onClickUpdateDelete() },
+                    modifier = Modifier.size(50.dp)
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.baseline_delete_24),
+                        contentDescription = "Send anexo",
+                        tint = Color.DarkGray,
+                    )
+                }
+            }else {
+                Text(
+                    text = pag,
+                    fontSize = 20.sp,
+                    color = Color.DarkGray
+
+                )
+            }
         }
 
-        Text(
-            text = pag,
-            fontSize = 20.sp,
-            color = Color.DarkGray
-
-        )
-
     }
-    Spacer(modifier = Modifier.height(5.dp))
+
 }

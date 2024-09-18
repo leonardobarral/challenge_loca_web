@@ -55,11 +55,9 @@ class Message(
 
     var cco : String = "",
 
+    var delete: Boolean = false,
+
     var updated_at: LocalDate?
-) {
+)
 
-    override fun toString(): String {
-        return "Message(id='$id', idUser='$idUser', emailRemente='$emailRemente', nomeRemetente='$nomeRemetente', assunto='$assunto', body='$body', dataEnvio=$dataEnvio, prioridade='$prioridade', idMessageResponse='$idMessageResponse', type='$type', dataRecebimento=$dataRecebimento, statusLeitura=$statusLeitura, boxFolder='$boxFolder', para='$para', cc='$cc', cco='$cco', updated_at=$updated_at)"
-    }
 
-}

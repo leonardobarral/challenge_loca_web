@@ -23,6 +23,7 @@ import br.com.fiap.MailMaster.R
 fun HeaderNewEmail(
     onClickShowFolders: () -> Unit,
     onClickSend:() -> Unit,
+    onClickUpdateDelete: () -> Unit,
     pag: String
 ) {
     //cabecalho
@@ -50,22 +51,21 @@ fun HeaderNewEmail(
 
         Column {
             Row {
-
-
                 IconButton(
-                    onClick = {},
+                    onClick = {onClickUpdateDelete()},
                     modifier = Modifier.size(50.dp)
 
                 ) {
 
                     Icon(
-                        painter = painterResource(id = R.drawable.baseline_attach_file_24),
+                        painter = painterResource(id = R.drawable.baseline_delete_24),
                         contentDescription = "Send anexo",
                         tint = Color.DarkGray,
                     )
 
                 }
                 Spacer(modifier = Modifier.width(5.dp))
+                
                 IconButton(
                     onClick = {
                         onClickSend()

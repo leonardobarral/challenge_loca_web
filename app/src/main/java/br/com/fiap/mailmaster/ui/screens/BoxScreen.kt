@@ -21,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -32,6 +33,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import br.com.fiap.MailMaster.R
+import br.com.fiap.mailmaster.models.Message
 import br.com.fiap.mailmaster.models.enums.BoxFolderEnum
 import br.com.fiap.mailmaster.models.views.ReadViewModel
 import br.com.fiap.mailmaster.models.views.ViewModel
@@ -61,6 +63,13 @@ fun BoxScreen(
 
     var showFolders by remember { mutableStateOf(false) }
     var page by remember { mutableStateOf(boxFolder.getDescription()) }
+    var filtered = remember { mutableStateOf(false) }
+
+    var listMessageFilter = remember { mutableStateListOf<Message>() }
+    var anyFilter = remember { mutableStateOf(false) }
+
+
+
 
     fun atualizarBoxFolder() {
         userLoged?.let {
@@ -87,7 +96,15 @@ fun BoxScreen(
                     Header(
                         onClickShowFolders = {
                             showFolders = !showFolders
-                        }, page
+                        },
+                        page,
+                        onClickUpdateDelete = {
+                            for (i in listMessageFilter) {
+                                i.delete = true
+                                messageService.update(i)
+                            }
+                        },
+                        filtered.value
                     )
 
                     Column(modifier = Modifier.fillMaxSize()) {
@@ -99,8 +116,8 @@ fun BoxScreen(
                                 LazyColumn {
                                     items(listMessage) { message ->
                                         userLoged?.let {
-                                            ItemLinhaComponenteSent(message = message,
-                                                user = it,
+                                            ItemLinhaComponenteSent(
+                                                message = message,
                                                 onClick = {
 
 
@@ -113,7 +130,15 @@ fun BoxScreen(
                                                         }
                                                         navController.navigate("fiftieth/" + message.id)
                                                     }
-                                                })
+                                                },
+                                                filterSelected = {
+                                                    if(it) listMessageFilter.add(message)
+                                                    anyFilter.value = true
+                                                },
+                                                anyFilter.value
+
+
+                                            )
                                             Spacer(modifier = Modifier.height(5.dp))
                                         }
                                     }

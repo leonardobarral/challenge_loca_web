@@ -74,7 +74,10 @@ fun ReadScreen(
                             onClickShowFolders = {
                                 showFolders = !showFolders
                             },
-                            onclickUpdateDelete = {},
+                            onclickUpdateDelete = {
+                                message.delete = true
+                                messageService.update(message)
+                            },
                             page
                         )
                     } else {

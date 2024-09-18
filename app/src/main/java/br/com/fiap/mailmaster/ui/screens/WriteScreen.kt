@@ -1,4 +1,5 @@
 package br.com.fiap.mailmaster.ui.screens
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -85,6 +86,7 @@ fun WriteScreen(
     val priority = remember { mutableStateOf(PriorityEnum.NORMAL) }
 
     val idNewEmail = remember { mutableStateOf("") }
+    val deleteStatus = remember { mutableStateOf(false) }
 
     val idNewResponse = remember { mutableStateOf("") }
 
@@ -111,7 +113,7 @@ fun WriteScreen(
             """.trimIndent()
     }
 
-    LaunchedEffect(id, typeoperation ){
+    LaunchedEffect(id, typeoperation) {
 
         if (id != "" && typeoperation == "DRAFT") {
             var messageOriginal = messageService.findById(id)
@@ -158,8 +160,6 @@ fun WriteScreen(
     }
 
 
-
-
     val validator = EmailChecking()
 
     fun saveMessage(box: String) {
@@ -188,7 +188,8 @@ fun WriteScreen(
                 dataRecebimento = null,
                 updated_at = null,
                 idMessageResponse = idNewResponse.value,
-                statusLeitura = true
+                statusLeitura = true,
+                delete = deleteStatus.value
             )
         }?.let {
             if (messageService.findById(idNewEmail.value)?.id.isNullOrEmpty()) messageService.insertNew(
@@ -210,16 +211,24 @@ fun WriteScreen(
             Column(
                 modifier = Modifier.padding(10.dp)
             ) {
-                HeaderNewEmail(onClickShowFolders = {
-                    showFolders = !showFolders
-                }, onClickSend = {
-                    if (!showFolders && body.value.isNotBlank() && assunto.value.isNotBlank() && (paraEmailList.isNotEmpty() || ccEmailList.isNotEmpty() || ccoEmailList.isNotEmpty())
-                    ) {
-                        saveMessage("SENT")
-                        viewModel.updateBoxFolder(BoxFolderEnum.BOX)
+                HeaderNewEmail(
+                    onClickUpdateDelete = {
+
+                        deleteStatus.value = true
+                        saveMessage("DRAFT")
+                        viewModel.updateBoxFolder(BoxFolderEnum.DRAFT)
                         navController.navigate("second")
-                    }
-                }, page
+
+                    },
+                    onClickShowFolders = { showFolders = !showFolders },
+                    onClickSend = {
+                        if (!showFolders && body.value.isNotBlank() && assunto.value.isNotBlank() && (paraEmailList.isNotEmpty() || ccEmailList.isNotEmpty() || ccoEmailList.isNotEmpty())) {
+                            saveMessage("SENT")
+                            viewModel.updateBoxFolder(BoxFolderEnum.BOX)
+                            navController.navigate("second")
+                        }
+                    },
+                    pag = page
                 )
                 Spacer(modifier = Modifier.height(5.dp))
                 Box(
@@ -624,9 +633,7 @@ fun WriteScreen(
 
 
                         textStyle = TextStyle(
-                            color = Color.DarkGray,
-                            fontSize = 15.sp,
-                            textAlign = TextAlign.Start
+                            color = Color.DarkGray, fontSize = 15.sp, textAlign = TextAlign.Start
 
                         ),
                         colors = TextFieldDefaults.colors(
@@ -655,8 +662,7 @@ fun WriteScreen(
                     navController.navigate("second")
                     showFolders = !showFolders
                 }, onClickSettings = {
-                    saveMessage("DRAFT")
-                    /*navController.navigate("fourth")*/
+                    saveMessage("DRAFT")/*navController.navigate("fourth")*/
                     showFolders = !showFolders
                 })
             }
