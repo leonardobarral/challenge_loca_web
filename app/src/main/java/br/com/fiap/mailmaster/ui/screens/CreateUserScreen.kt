@@ -16,6 +16,8 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -119,27 +121,57 @@ fun CreateUserScreen(navController: NavController, viewModel: ViewModel) {
                 modifier = Modifier.padding(bottom = 16.dp)
             )
 
-            OutlinedTextField(
+            TextField(
                 value = userEmail.value,
                 onValueChange = {
                     userEmail.value = it
                     alertEmail.value = false
                 }, label = { Text(text = "Email") },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                colors = TextFieldDefaults.colors(
+                    unfocusedPlaceholderColor = Color.LightGray,
+                    focusedPlaceholderColor = Color.LightGray,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    focusedIndicatorColor = Color.Transparent,
+                    focusedContainerColor = Color.LightGray,
+                    unfocusedContainerColor = Color.LightGray,
+                    unfocusedTextColor = Color.Black,
+                    focusedTextColor = Color.Black,
+                    focusedLabelColor = Color.Black,
+                    unfocusedLabelColor = Color.Black,
+                    cursorColor = Color.Black,
+
+                    ),
+                shape = RoundedCornerShape(16.dp)
             )
+            Spacer(modifier = Modifier.height(20.dp))
 
-
-            OutlinedTextField(
+            TextField(
                 value = userNome.value,
                 onValueChange = {
                     userNome.value = it
                 },
                 label = { Text(text = "Nome") },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                colors = TextFieldDefaults.colors(
+                    unfocusedPlaceholderColor = Color.LightGray,
+                    focusedPlaceholderColor = Color.LightGray,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    focusedIndicatorColor = Color.Transparent,
+                    focusedContainerColor = Color.LightGray,
+                    unfocusedContainerColor = Color.LightGray,
+                    unfocusedTextColor = Color.Black,
+                    focusedTextColor = Color.Black,
+                    focusedLabelColor = Color.Black,
+                    unfocusedLabelColor = Color.Black,
+                    cursorColor = Color.Black,
+
+                    ),
+                shape = RoundedCornerShape(16.dp)
             )
+            Spacer(modifier = Modifier.height(20.dp))
 
-
-            OutlinedTextField(
+            TextField(
                 value = userSenha.value,
                 onValueChange = {
                     userSenha.value = it
@@ -147,12 +179,27 @@ fun CreateUserScreen(navController: NavController, viewModel: ViewModel) {
                     alertpasswordDistict.value = false
                 },
                 label = { Text(text = "Senha") },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                colors = TextFieldDefaults.colors(
+                    unfocusedPlaceholderColor = Color.LightGray,
+                    focusedPlaceholderColor = Color.LightGray,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    focusedIndicatorColor = Color.Transparent,
+                    focusedContainerColor = Color.LightGray,
+                    unfocusedContainerColor = Color.LightGray,
+                    unfocusedTextColor = Color.Black,
+                    focusedTextColor = Color.Black,
+                    focusedLabelColor = Color.Black,
+                    unfocusedLabelColor = Color.Black,
+                    cursorColor = Color.Black,
+
+                    ),
+                shape = RoundedCornerShape(16.dp)
             )
+            Spacer(modifier = Modifier.height(20.dp))
 
 
-
-            OutlinedTextField(
+            TextField(
                 value = userSenha1.value,
                 onValueChange = {
                     userSenha1.value = it
@@ -160,7 +207,22 @@ fun CreateUserScreen(navController: NavController, viewModel: ViewModel) {
                     alertpasswordDistict.value = false
                 },
                 label = { Text(text = "Confirmar Senha") },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                colors = TextFieldDefaults.colors(
+                    unfocusedPlaceholderColor = Color.LightGray,
+                    focusedPlaceholderColor = Color.LightGray,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    focusedIndicatorColor = Color.Transparent,
+                    focusedContainerColor = Color.LightGray,
+                    unfocusedContainerColor = Color.LightGray,
+                    unfocusedTextColor = Color.Black,
+                    focusedTextColor = Color.Black,
+                    focusedLabelColor = Color.Black,
+                    unfocusedLabelColor = Color.Black,
+                    cursorColor = Color.Black,
+
+                    ),
+                shape = RoundedCornerShape(16.dp)
             )
 
             Spacer(modifier = Modifier.height(25.dp))
@@ -170,7 +232,7 @@ fun CreateUserScreen(navController: NavController, viewModel: ViewModel) {
                     onClick = {
                         navController.navigate("first")
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF00796B)),
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF757575)),
                     modifier = Modifier
                         .weight(1f)
                         .height(50.dp),
@@ -204,7 +266,7 @@ fun CreateUserScreen(navController: NavController, viewModel: ViewModel) {
                         }
 
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF00796B)),
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF006400)),
                     modifier = Modifier
                         .weight(1f)
                         .height(50.dp),

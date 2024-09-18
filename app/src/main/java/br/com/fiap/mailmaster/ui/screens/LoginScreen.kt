@@ -16,6 +16,9 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -64,23 +67,56 @@ fun LoginScreen(navController: NavController, viewModel: ViewModel) {
                 modifier = Modifier.padding(bottom = 16.dp)
             )
             Row {
-                OutlinedTextField(
+                TextField(
                     value = userEmail.value,
                     onValueChange = {
                         userEmail.value = it
                     },
                     label = { Text("Email") },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    placeholder = { Text("example@domain.com") },
+                    colors = TextFieldDefaults.colors(
+                        unfocusedPlaceholderColor = Color.LightGray,
+                        focusedPlaceholderColor = Color.LightGray,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Transparent,
+                        focusedContainerColor = Color.LightGray,
+                        unfocusedContainerColor = Color.LightGray,
+                        unfocusedTextColor = Color.Black,
+                        focusedTextColor = Color.Black,
+                        focusedLabelColor = Color.Black,
+                        unfocusedLabelColor = Color.Black,
+                        cursorColor = Color.Black,
+                    ),
+                    shape = RoundedCornerShape(16.dp)
                 )
             }
+            Spacer(modifier = Modifier.height(30.dp))
             Row {
-                OutlinedTextField(
+                TextField(
                     value = userSenha.value,
                     onValueChange = {
                         userSenha.value = it
                     },
+
                     label = { Text("Senha") },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    placeholder = { Text("123abc$%") },
+                    colors = TextFieldDefaults.colors(
+                        unfocusedPlaceholderColor = Color.LightGray,
+                        focusedPlaceholderColor = Color.LightGray,
+                        unfocusedIndicatorColor = Color.Transparent,
+                        focusedIndicatorColor = Color.Transparent,
+                        focusedContainerColor = Color.LightGray,
+                        unfocusedContainerColor = Color.LightGray,
+                        unfocusedTextColor = Color.Black,
+                        focusedTextColor = Color.Black,
+                        focusedLabelColor = Color.Black,
+                        unfocusedLabelColor = Color.Black,
+                        cursorColor = Color.Black,
+
+                    ),
+                    shape = RoundedCornerShape(16.dp)
                 )
             }
             Spacer(modifier = Modifier.height(25.dp))
@@ -97,8 +133,8 @@ fun LoginScreen(navController: NavController, viewModel: ViewModel) {
                         .height(50.dp),
                     shape = RoundedCornerShape(8.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.LightGray,
-                        contentColor = Color.Black
+                        containerColor = Color(0xFF757575),
+                        contentColor = Color.White
                     )
                 ) {
                     Text(text = "Cadastro")
@@ -123,7 +159,7 @@ fun LoginScreen(navController: NavController, viewModel: ViewModel) {
                         .height(50.dp),
                     shape = RoundedCornerShape(8.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.Blue,
+                        containerColor = Color(0xFF006400),
                         contentColor = Color.White
                     )
                 ) {
