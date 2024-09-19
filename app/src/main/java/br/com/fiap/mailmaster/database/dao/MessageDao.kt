@@ -20,10 +20,13 @@ interface MessageDao {
     @Delete
     fun delete(message: Message): Int
 
-    @Query("SELECT * FROM tb_message WHERE idUser = :idUser and box_folder = :box_folder")
+    @Query("SELECT * FROM tb_message WHERE idUser = :idUser and box_folder = :box_folder and `delete` = false")
     fun findByBoxFolder(idUser: String, box_folder: String): List<Message>
 
     @Query("SELECT * FROM tb_message WHERE id = :id")
     fun findById(id: String): Message
+
+    @Query("SELECT * FROM tb_message WHERE idUser = :id")
+    fun findByAll(id: String): List<Message>
 
 }

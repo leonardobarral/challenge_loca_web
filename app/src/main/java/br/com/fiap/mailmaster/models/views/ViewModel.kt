@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import br.com.fiap.mailmaster.dtos.UserCadastroDto
+import br.com.fiap.mailmaster.dtos.UserExibitionDto
 import br.com.fiap.mailmaster.dtos.UserLoginDto
 import br.com.fiap.mailmaster.models.Message
 import br.com.fiap.mailmaster.models.User
@@ -32,17 +33,41 @@ class ViewModel : ViewModel() {
     //userLoged
     private val _userLoged = MutableLiveData<User>()
     val userLoged: LiveData<User> = _userLoged
-
-    //    fun updateLogedUser(novoValor: UserExibitionDto) {
-//        _userLoged.value = novoValor
+    fun updateLogedUser(novoValor: User) {
+        _userLoged.value = novoValor
+    }
+//    fun updateLogedUserLocal(novoValor: UserExibitionDto) {
+//        _userLoged.value = User(
+//            novoValor.id,
+//            novoValor.name,
+//            novoValor.tema,
+//            novoValor.email,
+//            novoValor.cor
 //    }
     fun updateLogedUser() {
         _userLoged.value = User(
             id = "3ae32c41-a1c8-49fb-a838-14c3a849857c",
             name = "Leonardo",
-            email = "leo@gmail.com"
+            email = "leo@gmail.com",
+            cor = "RED",
+            tema = "DARK"
+
         )
     }
+
+
+    //userLoged
+    private val _statusConection = MutableLiveData<String>()
+    val statusConection: LiveData<String> = _statusConection
+
+    fun updateStatusConection(novoValor: String) {
+        _statusConection.value = novoValor
+    }
+
+
+
+
+
 
 
     //userLoginDto
@@ -112,6 +137,7 @@ class ViewModel : ViewModel() {
 
     //write
     //EmailCriacaoDto
+
 
 
 }

@@ -17,6 +17,8 @@ class UserService(context: Context) {
                 id = user.id,
                 email = user.email,
                 name = user.name,
+                cor = user.cor,
+                tema = user.tema
             )
             userRepository.insert(newUser)
             userRepository.selectById(newUser.id).id

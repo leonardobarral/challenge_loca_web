@@ -4,7 +4,8 @@ import br.com.fiap.mailmaster.models.User
 
 data class UserExibitionDto(
     val email: String,
-    val name: String
+    val name: String,
+
 ) {
     constructor(user: User) : this(
         email = user.email,

@@ -29,4 +29,8 @@ class MessageRepository(context: Context) {
         return db.findById(id = id)
     }
 
+    fun findByAll(id:String): List<Message> {
+        return db.findByAll(id = id)
+    }
+
 }

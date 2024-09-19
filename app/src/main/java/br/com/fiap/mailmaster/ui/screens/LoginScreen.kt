@@ -1,6 +1,8 @@
 package br.com.fiap.mailmaster.ui.screens
 
 
+import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,15 +15,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -32,8 +30,14 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import br.com.fiap.mailmaster.Retrofit.RetrofitFactory
+import br.com.fiap.mailmaster.dtos.UserLoginDto
+import br.com.fiap.mailmaster.models.User
 import br.com.fiap.mailmaster.models.views.ViewModel
 import br.com.fiap.mailmaster.services.UserService
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 @Composable
@@ -43,8 +47,44 @@ fun LoginScreen(navController: NavController, viewModel: ViewModel) {
     val userEmail = remember { mutableStateOf("") }
     val userSenha = remember { mutableStateOf("") }
 
+    val sucefful = remember { mutableStateOf(false) }
+    val alerta = remember { mutableStateOf(false) }
+
     val context = LocalContext.current
     val userService = UserService(context)
+
+    fun loginOnline() {
+        val call = RetrofitFactory()
+            .getRetrofiteService()
+            .getUserLoginToken(
+                UserLoginDto(
+                    email = userEmail.value,
+                    password = userSenha.value
+                )
+            )
+        call.enqueue(object : Callback<User> {
+            override fun onResponse(
+                call: Call<User>,
+                response: Response<User>
+            ) {
+                if (response.isSuccessful) {
+
+                    response.body()?.let { viewModel.updateLogedUser(it) }
+                    sucefful.value = true
+                }else{
+                    sucefful.value = false
+                    alerta.value = true
+                    Log.i("FIAP","onResponse${response.body()}")
+                }
+            }
+            override fun onFailure(call: Call<User>, t: Throwable) {
+                alerta.value = true
+                Log.i("FIAP","onResponse${t.message}")
+            }
+        })
+    }
+
+
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -58,6 +98,34 @@ fun LoginScreen(navController: NavController, viewModel: ViewModel) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            if (alerta.value) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(color = Color.LightGray)
+                        .padding(8.dp)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
+
+
+
+                            Text(
+                                text = "E-mail ou senha inválidos!",
+                                style = TextStyle(
+                                    fontSize = 14.sp
+                                ),
+                                color = Color.Red
+
+                            )
+                        Spacer(modifier = Modifier.height(5.dp))
+
+
+                    }
+                }
+            }
             Text(
                 text = "Login",
                 style = TextStyle(
@@ -115,7 +183,7 @@ fun LoginScreen(navController: NavController, viewModel: ViewModel) {
                         unfocusedLabelColor = Color.Black,
                         cursorColor = Color.Black,
 
-                    ),
+                        ),
                     shape = RoundedCornerShape(16.dp)
                 )
             }
@@ -142,16 +210,14 @@ fun LoginScreen(navController: NavController, viewModel: ViewModel) {
                 Spacer(modifier = Modifier.width(10.dp))
                 Button(
                     onClick = {
-//                        userService.login(
-//                            UserLoginDto(
-//                                email = userEmail,
-//                                password = userSenha
-//                            )
-//                        )?.let {
-//                            viewModel.updateUserEmail("")
-//                            viewModel.updateUserSenha("")
-                        viewModel.updateLogedUser()
+//                        loginOnline()
+//
+//                        if(sucefful.value){
+//                            viewModel.updateStatusConection("ONLINE")
+//                            navController.navigate("second")
 //                        }
+
+                        viewModel.updateLogedUser()
                         navController.navigate("second")
                     },
                     modifier = Modifier

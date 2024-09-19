@@ -11,7 +11,9 @@ data class User(
 
     @PrimaryKey
     val id: String,
-    val email: String,
     val name: String,
+    val tema: String,
+    val email: String,
+    val cor : String
 
 )

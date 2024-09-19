@@ -115,13 +115,13 @@ fun WriteScreen(
 
     LaunchedEffect(id, typeoperation) {
 
-        if (id != "" && typeoperation == "DRAFT") {
+        if (id != "0" && typeoperation == "DRAFT") {
             var messageOriginal = messageService.findById(id)
 
             idNewEmail.value = messageOriginal.id
-            paraEmailList.addAll(messageOriginal.para.split(",").toMutableList())
-            ccEmailList.addAll(messageOriginal.cc.split(",").toMutableList())
-            ccoEmailList.addAll(messageOriginal.cco.split(",").toMutableList())
+            if(messageOriginal.para.isNotBlank()) paraEmailList.addAll(messageOriginal.para.split(",").toMutableList())
+            if(messageOriginal.cc.isNotBlank()) ccEmailList.addAll(messageOriginal.cc.split(",").toMutableList())
+            if(messageOriginal.cco.isNotBlank()) ccoEmailList.addAll(messageOriginal.cco.split(",").toMutableList())
             body.value = messageOriginal.body
             assunto.value = messageOriginal.assunto
             priority.value = PriorityEnum.fromName(messageOriginal.prioridade)!!
@@ -139,9 +139,9 @@ fun WriteScreen(
             var messageOriginal = messageService.findById(id)
 
             idNewEmail.value = UUID.randomUUID().toString()
-            paraEmailList.add(messageOriginal.emailRemente)
-            ccEmailList.addAll(messageOriginal.para.split(",").toMutableList())
-            ccEmailList.addAll(messageOriginal.cc.split(",").toMutableList())
+            if(messageOriginal.para.isNotBlank()) paraEmailList.add(messageOriginal.emailRemente)
+            if(messageOriginal.cc.isNotBlank()) ccEmailList.addAll(messageOriginal.para.split(",").toMutableList())
+            if(messageOriginal.cco.isNotBlank()) ccEmailList.addAll(messageOriginal.cc.split(",").toMutableList())
             body.value = string(messageOriginal) + messageOriginal.body
             assunto.value = "RE: " + messageOriginal.assunto
             priority.value = PriorityEnum.fromName(messageOriginal.prioridade)!!

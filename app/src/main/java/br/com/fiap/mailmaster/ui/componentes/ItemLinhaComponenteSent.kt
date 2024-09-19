@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -32,7 +33,7 @@ import androidx.compose.ui.unit.sp
 import br.com.fiap.MailMaster.R
 import br.com.fiap.mailmaster.models.Message
 
-
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ItemLinhaComponenteSent(
     message: Message,
@@ -43,67 +44,120 @@ fun ItemLinhaComponenteSent(
     var filtered = remember { mutableStateOf(false) }
     //Image(painter = , contentDescription = )
     Card(
+//        onClick = {onClick(message)},
         modifier = Modifier
             .fillMaxWidth()
             .clickable { onClick(message) }
             .pointerInput(Unit) {
                 detectTapGestures(
                     onLongPress = {
-                        filterSelected(!filtered.value)
+                        filterSelected(true)
                         filtered.value = true
+                    },
+                    onTap = {
+                        onClick(message)
                     }
                 )
             },
         shape = RoundedCornerShape(6.dp),
         colors = CardDefaults.cardColors(containerColor = Color(0xFFF5F5F5)),
-
-        )
+    )
     {
-        if (filtered.value || anyFilter) {
-            Column {
-                if (filtered.value) {
-                    IconButton(
-                        onClick = {},
-                        modifier = Modifier.size(50.dp)
-                    )
-                    {
-                        Icon(
-                            painter = painterResource(id = R.drawable.baseline_check_box_24),
-                            contentDescription = "Toggle Folders",
-                            tint = Color.DarkGray
+        Row(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            if (filtered.value || anyFilter) {
+                Column {
+                    if (filtered.value) {
+                        IconButton(
+                            onClick = {
+                                filtered.value = false
+                                filterSelected(false)
+                                      },
+                            modifier = Modifier.size(50.dp)
                         )
-                    }
-                }else{
-                    IconButton(
-                        onClick = {},
-                        modifier = Modifier.size(50.dp)
-                    )
-                    {
-                        Icon(
-                            painter = painterResource(id = R.drawable.baseline_check_box_outline_blank_24),
-                            contentDescription = "Toggle Folders",
-                            tint = Color.DarkGray
+                        {
+                            Icon(
+                                painter = painterResource(id = R.drawable.baseline_check_box_24),
+                                contentDescription = "Toggle Folders",
+                                tint = Color.DarkGray
+                            )
+                        }
+                    } else {
+                        IconButton(
+                            onClick = {
+                                filtered.value = true
+                                filterSelected(true)
+                            },
+                            modifier = Modifier.size(50.dp)
                         )
+                        {
+                            Icon(
+                                painter = painterResource(id = R.drawable.baseline_check_box_outline_blank_24),
+                                contentDescription = "Toggle Folders",
+                                tint = Color.DarkGray
+                            )
+                        }
                     }
                 }
             }
-        }
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(5.dp)
-        ) {
-
-            Row(
+            Column(
                 modifier = Modifier
+                    .padding(5.dp)
                     .fillMaxWidth()
-                    .height(21.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Column {
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(21.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Column {
+                        if (message.statusLeitura) {
+                            Text(
+                                text = "Para: " + message.para,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                                style = TextStyle(
+                                    fontSize = 18.sp,
+                                    color = Color.DarkGray
+                                ),
+                                fontWeight = FontWeight.Normal
+                            )
+                        } else {
+                            Text(
+                                text = "Para: " + message.para,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis,
+                                style = TextStyle(
+                                    fontSize = 18.sp,
+                                    color = Color.Black
+                                ),
+                                fontWeight = FontWeight.ExtraBold
+                            )
+                        }
+                    }
+                    Column {
+                        Text(
+                            text = message.dataEnvio.toString(),
+                            style = TextStyle(
+                                fontSize = 14.sp,
+                                color = Color.Gray
+                            ),
+                            modifier = Modifier.align(Alignment.End)
+                        )
+                    }
+                }
+                Spacer(modifier = Modifier.height(4.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+
                     if (message.statusLeitura) {
                         Text(
-                            text = "Para: " + message.para,
+                            text = message.assunto,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                             style = TextStyle(
@@ -114,7 +168,7 @@ fun ItemLinhaComponenteSent(
                         )
                     } else {
                         Text(
-                            text = "Para: " + message.para,
+                            text = message.assunto,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                             style = TextStyle(
@@ -124,68 +178,26 @@ fun ItemLinhaComponenteSent(
                             fontWeight = FontWeight.ExtraBold
                         )
                     }
+
+
                 }
-                Column {
+                Spacer(modifier = Modifier.height(4.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
                     Text(
-                        text = message.dataEnvio.toString(),
+                        text = message.body,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
                         style = TextStyle(
                             fontSize = 14.sp,
-                            color = Color.Gray
-                        ),
-                        modifier = Modifier.align(Alignment.End)
-                    )
-                }
-            }
-            Spacer(modifier = Modifier.height(4.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-
-                if (message.statusLeitura) {
-                    Text(
-                        text = message.assunto,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        style = TextStyle(
-                            fontSize = 18.sp,
                             color = Color.DarkGray
-                        ),
-                        fontWeight = FontWeight.Normal
-                    )
-                } else {
-                    Text(
-                        text = message.assunto,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        style = TextStyle(
-                            fontSize = 18.sp,
-                            color = Color.Black
-                        ),
-                        fontWeight = FontWeight.ExtraBold
+                        )
                     )
                 }
-
-
-            }
-            Spacer(modifier = Modifier.height(4.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    text = message.body,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    style = TextStyle(
-                        fontSize = 14.sp,
-                        color = Color.DarkGray
-                    )
-                )
             }
         }
-
-        Modifier.clickable { onClick(message) }
     }
 }
 

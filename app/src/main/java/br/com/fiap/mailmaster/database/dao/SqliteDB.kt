@@ -12,7 +12,7 @@ import br.com.fiap.mailmaster.models.User
         User::class,
         Message::class
     ],
-    version = 2
+    version = 1
 )
 abstract class SqliteDB : RoomDatabase() {
     abstract fun UserDao(): UserDao
@@ -27,7 +27,7 @@ abstract class SqliteDB : RoomDatabase() {
                 instance = Room.databaseBuilder(
                     context,
                     SqliteDB::class.java,
-                    "db"
+                    "db_loca_web"
                 )
                     .allowMainThreadQueries()
                     .fallbackToDestructiveMigration()

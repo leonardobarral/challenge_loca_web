@@ -19,6 +19,9 @@ class MessageService(context: Context) {
     fun findById(id: String): Message {
         return messageRepository.findById(id = id)
     }
+    fun findByAll(id: String): List<Message> {
+        return messageRepository.findByAll(id = id)
+    }
 
     fun update(message: Message): Int {
         return messageRepository.update(message = message)

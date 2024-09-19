@@ -7,5 +7,9 @@ class UserCadastroDto(
     val email: String,
     val password1: String,
     val password2: String,
-    val name: String
-)
+    val name: String,
+    val cor: String = "RED",
+    val tema: String = "DARK"
+) {
+
+}
